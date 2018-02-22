@@ -1,0 +1,55 @@
+<div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar" ng-class="{true: 'active'}[data.sidebarCollapsed]">
+        <div class="sidebar-header" ng-click = "goHome();" >
+            <h3>SandersSuperStore</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+          <!--
+            <li>
+                <a href="/faq/popular-questions">{{mostPopularLanguage.most_popular}}</a>
+                <a href="/faq/get-started">{{getStartedLanguage.get_started}}</a>
+            </li>
+            -->
+            <br>
+            <p class = "sidebar-title">Main Menu</p>
+            <li>
+                <a href="#store" data-toggle="collapse" aria-expanded="false">Store</a>
+                <ul class="collapse list-unstyled" id="store">
+                    <li><a href="/store/browse">Browse products</a></li>
+                    <li><a href="/store/cart">Shopping cart</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#account" data-toggle="collapse" aria-expanded="false">My account</a>
+                <ul class="collapse list-unstyled" id="account">
+                    <li><a href="/user/saved">Saved products</a></li>
+                    <li><a href="/user/settings">Settings</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </nav>
+
+    <!-- Page Content Holder -->
+    <div id="content">
+
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+
+              <div class="navbar-header">
+                  <button type="button" ng-click = "toggleSidebar()" id="sidebarCollapse" class="btn btn-primary navbar-btn">
+                      <i class="fa fa-bars"></i>
+                  </button>
+              </div>
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a ng-click = "logout();">Log out</a></li>
+                  </ul>
+              </div>
+            </div>
+        </nav>
+        <div ui-view class="fadeZoom"></div>
+    </div>
+</div>

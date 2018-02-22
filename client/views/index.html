@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" ng-app = "MasterApp">
+  <head>
+    <base href="/">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/faq.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/general.css">
+    <link rel="stylesheet" href="/css/product-grid.css">
+    <link rel="stylesheet" href="/css/loading-spinner.css">
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="favicon.png" rel="shortcut icon">
+    <link rel="icon" href="favicon.png" />
+
+    <title>Home</title>
+  </head>
+  <body ng-controller = "MasterCtrl">
+    <!-- Latest compiled and minified JavaScript
+    <div class="loading" ng-if = "$root.loading">Loading&#8230;</div>
+    -->
+    <div ng-if = "$root.alertMessage" class="alert alert-danger" style = "text-align:center;">
+      <a ng-click = "hideAlert();" class="close" aria-label="close">&times;</a>
+      <strong>Oooops!</strong> {{ $root.alertMessage }}
+    </div>
+    <div ui-view class="fadeZoom"></div>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/ngstorage/ngStorage.min.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/satellizer/0.15.5/satellizer.min.js"></script>
+
+
+    <script src="/app.js"></script>
+    <!-- Controllers -->
+    <script src="/js/controllers/master.js"></script>
+    <script src="/js/controllers/home.js"></script>
+    <script src="/js/controllers/user/settings.js"></script>
+    <script src="/js/controllers/user/saved.js"></script>
+    <script src="/js/controllers/store/cart.js"></script>
+    <script src="/js/controllers/store/browse.js"></script>
+    <script src="/js/controllers/auth/login.js"></script>
+    <script src="/js/controllers/auth/signup.js"></script>
+    <!-- Services -->
+    <script src="/js/services/account.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script type="text/javascript">
+		$(document).ready(function () {
+      $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+      $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
+      function toggleSidebar() {
+        console.log('clied');
+        $('#sidebar').toggleClass('active');
+      }
+
+		});
+		</script>
+	</body>
+</html>
