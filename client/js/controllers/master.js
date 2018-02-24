@@ -1,10 +1,11 @@
 angular.module('MasterApp')
-  .controller('MasterCtrl',['$scope', '$state', '$rootScope', '$localStorage', '$auth',
-  function($scope, $state, $rootScope, $localStorage, $auth) {
+  .controller('MasterCtrl',['$scope', '$state', '$rootScope', '$localStorage', '$auth', 'Account', 'User',
+  function($scope, $state, $rootScope, $localStorage, $auth, Account, User) {
     console.log('MasterCtrl');
     $scope.data = {
       sidebarCollapsed: false
     }
+    
 
     $scope.goHome = function() {
       $state.go('master.home');
@@ -14,16 +15,51 @@ angular.module('MasterApp')
       $scope.data.sidebarCollapsed = !$scope.data.sidebarCollapsed;
     }
     
+    $scope.isAdministrator = function() {
+      if ($rootScope.user && $rootScope.user.permissions.indexOf(1) != -1) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    
     $scope.logout = function() {
-      console.log('here');
       $auth.removeToken();
       $state.go('login');
     }
     
+    $scope.getNumberOfItems = function() {
+      if ($rootScope.user) {
+        return '('+$rootScope.user.cart_products.length+')';
+      } else {
+        return '';
+      }
+    }
+  
+    if ($auth.isAuthenticated()) {
+      User.updateUser();
+    }
+
+    $scope.showAlert = function(message, cb) {
+      $rootScope.alertMessage = message;
+      $rootScope.successMessage = null;
+      $rootScope.alertCb = cb;
+    }
     $scope.hideAlert = function() {
       $rootScope.alertMessage = null;
       if ($rootScope.alertCb) {
         $rootScope.alertCb();
+      }
+    }
+    $scope.showSuccess = function(message, cb) {
+      $rootScope.successMessage = message;
+      $rootScope.alertMessage = null;
+      $rootScope.successCb = cb;
+    }
+    $scope.hideSuccess = function() {
+      $rootScope.successMessage = null;
+      if ($rootScope.successCb) {
+        $rootScope.successCb();
       }
     }
   }]);

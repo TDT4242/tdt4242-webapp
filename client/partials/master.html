@@ -21,13 +21,6 @@
                     <li><a href="/store/cart">Shopping cart</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="#account" data-toggle="collapse" aria-expanded="false">My account</a>
-                <ul class="collapse list-unstyled" id="account">
-                    <li><a href="/user/saved">Saved products</a></li>
-                    <li><a href="/user/settings">Settings</a></li>
-                </ul>
-            </li>
         </ul>
 
     </nav>
@@ -45,7 +38,9 @@
               </div>
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav navbar-right">
-                      <li><a ng-click = "logout();">Log out</a></li>
+                    <li><a href = "/admin/home" ng-if = "isAdministrator()">Administrator page</a></li>
+                    <li><a href = "/store/cart">My cart {{getNumberOfItems()}}</a></li>
+                    <li><a ng-click = "logout();">Log out</a></li>
                   </ul>
               </div>
             </div>

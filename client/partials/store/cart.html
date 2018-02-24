@@ -1,0 +1,33 @@
+<div class="container">
+  <h3>My shopping cart</h3>
+  <table class="table table-striped" ng-if = "getCartProducts().length != 0">
+  <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <!--
+        <th>Quantity</th>
+        <th></th>
+      -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat = "cartProduct in getCartProducts()">
+        <td>{{getProduct(cartProduct).name}}</td>
+        <td>${{getProduct(cartProduct).price}}</td>
+        <!--
+        <td>
+          <input type="number" class="form-control" ng-model = "cartProduct.newQuantity">
+        </td>
+        <td>
+          <button class = "btn btn-small btn-success pull-right" type="button" name="button" ng-click = "saveProduct();" ng-if = "cartProduct.quantity != cartProduct.newQuantity">Save</button>
+          <button class = "btn btn-small btn-danger pull-right" type="button" name="button" ng-click = "deleteProductFromCart();">Delete</button>
+        </td>
+      -->
+      </tr>
+    </tbody>
+  </table>
+  <div ng-if = "getCartProducts().length == 0">
+    No products added to cart!
+  </div>
+</div>

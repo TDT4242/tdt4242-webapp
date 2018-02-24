@@ -19,8 +19,10 @@ module.exports = function(app) {
         return res.status(406).send({ message: status.USER_DOES_NOT_EXIST[req.language].message, status: status.USER_DOES_NOT_EXIST.code });
       }
       console.log(user);
+      console.log(req.body.password, user.password);
       bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
         if (err) {throw err;}
+        console.log(isMatch);
         if (!isMatch) {
           return res.status(406).send({ message: status.WRONG_PASSWORD[req.language].message, status: status.WRONG_PASSWORD.code });
         }

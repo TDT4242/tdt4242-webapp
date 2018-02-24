@@ -11,12 +11,23 @@ module.exports = function(app) {
     var searchQuery = {};
     
     if (req.body.name) {searchQuery.name = req.body.name;}
-    if (req.body.brands) {searchQuery.brands = req.body.brands;}
-    if (req.body.categories) {searchQuery.categories = req.body.categories;}
-    if (req.body.materials) {searchQuery.materials = req.body.materials;}
-    
-    Models.Product.find({}, function(err, products) {
+    if (req.body.brands.length != 0 || req.body.categories.length != 0 || req.body.materials.length != 0) {
+      searchQuery["$and"] = [];
+    }
+    if (req.body.brands.length > 0) {
+      searchQuery.$and.push({ brand: { $in: req.body.brands }});
+    }
+    if (req.body.categories.length > 0) {
+      searchQuery.$and.push({ categories: { $in: req.body.categories }});
+    }
+    if (req.body.materials.length > 0) {
+      searchQuery.$and.push({ material: { $in: req.body.materials }});
+    }
+    console.log(req.body.priceFilter);
+    Models.Product.find(searchQuery, null, req.body.priceFilter, function(err, products) {
       if (err) {throw err;}
+      var priceFilter = 
+      console.log(products);
       var brand_ids = [];
       var category_ids = [];
       var material_ids = [];
@@ -31,12 +42,16 @@ module.exports = function(app) {
           if (err) {throw err;}
           Models.Material.find({ _id: { $in: material_ids }}, function(err, materials) {
             if (err) {throw err;}
-            return res.status(200).send({ data: {
-              products: products,
-              brands: brands,
-              categories: categories,
-              materials: materials
-            }});
+            Models.Deal.find({}, function(err, deals) {
+              if (err) {throw err;}
+              return res.status(200).send({ data: {
+                products: products,
+                brands: brands,
+                categories: categories,
+                materials: materials,
+                deals: deals
+              }});
+            });
           });
         });
       });
