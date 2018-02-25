@@ -1,8 +1,9 @@
-FROM ubuntu:trusty
+FROM jenkins/jenkins
+
+USER root
 
 # File Author / Maintainer
 MAINTAINER Stein-Aage Klaussen
-
 
 RUN apt-get update && \
     apt-get -y install curl
@@ -28,13 +29,9 @@ RUN wget -q https://downloads.wkhtmltopdf.org/0.12/0.12.2.1/wkhtmltox-0.12.2.1_l
 WORKDIR /src
 ADD . /src
 
+ADD . /src/server
+
 # Install dependencies
 RUN cd server && npm install
 
-# Expose port
-EXPOSE  3000
-
-WORKDIR /src/server
-
-# Run app
-CMD ["node", "server.js"]
+USER jenkins
