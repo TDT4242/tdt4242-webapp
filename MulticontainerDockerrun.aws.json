@@ -1,0 +1,55 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "volumes": [
+    {
+      "name": "jenkins",
+      "host": {
+        "sourcePath": "/var/app/current/jenkins"
+      }
+    },
+    {
+      "name": "production",
+      "host": {
+        "sourcePath": "/var/app/current/production"
+      }
+    }
+  ],
+  "containerDefinitions": [
+    {
+    "name": "jenkins",
+    "image": "mugthakk/tdt4242_jenkins_with_node",
+    "essential": true,
+    "memory":700,
+    "mountPoints": [
+        {
+          "sourceVolume": "awseb-logs-jenkins",
+          "containerPath": "/var/log/containers/jenkins"
+        }
+      ],
+    "portMappings": [
+        {
+          "hostPort": 8080,
+          "containerPort": 8080
+        }
+      ]
+    },
+    {
+    "name": "production",
+    "image": "mugthakk/tdt4242",
+    "essential": true,
+    "memory":100,
+    "mountPoints": [
+        {
+          "sourceVolume": "awseb-logs-production",
+          "containerPath": "/var/log/containers/production"
+        }
+      ],
+    "portMappings": [
+        {
+          "hostPort": 8081,
+          "containerPort": 3000
+        }
+      ]
+  }
+  ]
+} 

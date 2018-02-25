@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    stages {
+
+	    stage("Node install"){
+	    	steps {
+	    		sh "npm install"
+	    	}
+
+	    }
+
+	   /* Uncommented until we actually have some tests 
+	   stage("Test") {
+	    	steps {
+	    		sh "./main/tests.js"
+	    	}
+	    } 
+	    */
+}
+
+}
