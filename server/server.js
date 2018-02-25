@@ -23,7 +23,7 @@ mongoose.connection.on('error', function(err) {
   console.log('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
 });
 
-// init();
+//init();
 //clear();
 
 
@@ -63,39 +63,102 @@ function init() {
   var newUser = new Models.User({
     first_name: "stein",
     last_name: "klaus",
-    email: "saklauss@stud.ntnu.no",
+    email: "user@user.no",
     password: "ntnupass"
+  });
+  var newAdmin = new Models.User({
+    first_name: "admin",
+    last_name: "administrator",
+    email: "admin@admin.no",
+    password: "ntnupass",
+    permissions: [0,1]
   });
   var newBrand = new Models.Brand({
     name: "Rolf Larsen"
   })
+  var newBrand1 = new Models.Brand({
+    name: "Gucci"
+  })
   var newCategory = new Models.Category({
     name: "Shirts"
   })
-  var polyester = new Models.Material({
+  var newCategory1 = new Models.Category({
+    name: "Pants"
+  })
+  var newMaterial = new Models.Material({
     name: "Polyester"
+  })
+  var newMaterial1 = new Models.Material({
+    name: "Lin"
   })
   var newProduct = new Models.Product({
     name: "Long sleeve shirt",
-    price: 19.99,
+    price: 9.99,
     short_description: 'Nice long sleeve classic superslim fit shirt.',
     long_description: '<h1>Very cool love short.</h1><br> Nice indeed.',
     brand: newBrand._id,
-    material: polyester._id,
+    material: newMaterial._id,
     categories: [newCategory._id]
+  })
+  var newProduct1 = new Models.Product({
+    name: "Short sleeve shirt",
+    price: 19.99,
+    short_description: 'Nice',
+    long_description: '<h1>Very cool love short.</h1><br> Nice indeed.',
+    brand: newBrand1._id,
+    material: newMaterial._id,
+    categories: [newCategory._id]
+  })
+  var newProduct2 = new Models.Product({
+    name: "Very long pants",
+    price: 29.99,
+    short_description: 'Nice',
+    long_description: '<h1>Very cool love short.</h1><br> Nice indeed.',
+    brand: newBrand._id,
+    material: newMaterial1._id,
+    categories: [newCategory1._id]
+  })
+  var newProduct3 = new Models.Product({
+    name: "Short pants",
+    price: 39.99,
+    short_description: 'Nice',
+    long_description: '<h1>Very cool love short.</h1><br> Nice indeed.',
+    brand: newBrand._id,
+    material: newMaterial1._id,
+    categories: [newCategory1._id]
   })
   newUser.save(function(err) {
     console.log(err);
-    newBrand.save(function(err) {
+    newAdmin.save(function(err) {
       console.log(err);
-      newCategory.save(function(err) {
+      newBrand.save(function(err) {
         console.log(err);
-        polyester.save(function(err) {
+        newBrand1.save(function(err) {
           console.log(err);
-          newProduct.save(function(err) {
+          newCategory1.save(function(err) {
             console.log(err);
-            console.log('saved');
-
+            newMaterial1.save(function(err) {
+              console.log(err);
+              newCategory.save(function(err) {
+                console.log(err);
+                newMaterial.save(function(err) {
+                  console.log(err);
+                  newProduct.save(function(err) {
+                    console.log(err);
+                    newProduct1.save(function(err) {
+                      console.log(err);
+                      newProduct2.save(function(err) {
+                        console.log(err);
+                        newProduct3.save(function(err) {
+                          console.log(err);
+                          console.log('saved');
+                        })
+                      })
+                    })
+                  })
+                })
+              })    
+            })
           })
         })
       })

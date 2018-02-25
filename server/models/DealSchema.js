@@ -2,14 +2,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-  discount: { type: Number, default: null },
-  start_date: { type: String, required: true },
-  end_date: { type: String, required: true },
-  products: [{
-    product: { type: Schema.Types.ObjectId, ref: 'Product' },
-    quantity: { type: Number, required: true },
-    discount: { type: Number, required: true },
-  }]
+  product: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+  percentage: { type: Number, default: null },
+  x: { type: Number, default: null },
+  y: { type: Number, default: null },
+  start_date: { type: String, default: null },
+  end_date: { type: String, default: null }
 });
 
 

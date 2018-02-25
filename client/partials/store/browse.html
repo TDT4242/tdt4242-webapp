@@ -1,32 +1,79 @@
 <div class="container">
-    <div class="well well-sm">
-        <strong>Category Title</strong>
-        <div class="btn-group">
-            <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
-            </span>List</a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
-                class="glyphicon glyphicon-th"></span>Grid</a>
-        </div>
+  <div ng-if = "$root.alertMessage" class="alert alert-danger" style = "text-align:center;">
+    <a ng-click = "hideAlert();" class="close" aria-label="close">&times;</a>
+    <strong>Oooops!</strong> {{ $root.alertMessage }}
+  </div>
+  <div ng-if = "$root.successMessage" class="alert alert-success" style = "text-align:center;">
+    <a ng-click = "hideSuccess();" class="close" aria-label="close">&times;</a>
+    <strong>Success!</strong> {{ $root.successMessage }}
+  </div>
+  <h3>Browse store products</h3>
+  <div class="panel-group">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Filter products</div>
+      <div class="panel-body">
+        <label for="brands" style = "margin-top:10px;">Filter by brands:</label>
+        <ui-select id="brands" multiple ng-model="data.filterBrands" theme="bootstrap" ng-disabled="false" sortable="true" close-on-select="false" style="width: 800px;">
+          <ui-select-match placeholder="Select brand(s)">{{$item.name}}</ui-select-match>
+          <ui-select-choices repeat="brand in data.brands | filter: $select.search">
+            <div ng-bind-html="brand.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+        <label for="categories" style = "margin-top:10px;">Filter by categories:</label>
+        <ui-select id="categories" multiple ng-model="data.filterCategories" theme="bootstrap" ng-disabled="false" sortable="true" close-on-select="false" style="width: 800px;">
+          <ui-select-match placeholder="Select categories(s)">{{$item.name}}</ui-select-match>
+          <ui-select-choices repeat="category in data.categories | filter: $select.search">
+            <div ng-bind-html="category.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+        <label for="materials" style = "margin-top:10px;">Filter by materials:</label>
+        <ui-select id="materials" multiple ng-model="data.filterMaterials" theme="bootstrap" ng-disabled="false" sortable="true" close-on-select="false" style="width: 800px;">
+          <ui-select-match placeholder="Select material(s)">{{$item.name}}</ui-select-match>
+          <ui-select-choices repeat="material in data.materials | filter: $select.search">
+            <div ng-bind-html="material.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+        <label for="priceFilter" style = "margin-top:10px;">Use price filter:</label>
+        <ui-select id="priceFilter" ng-model="data.priceFilter" theme="bootstrap" ng-disabled="false" style="width: 800px;" title="Choose a price filter" append-to-body="true">
+          <ui-select-match placeholder="Select a price filter in the list...">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="priceFilter in data.priceFilters | filter: $select.search">
+            <div ng-bind-html="priceFilter.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+        <button type="button" class="btn btn-success btn-md" ng-click = "filterProducts();" style = "margin-top:10px;">Apply filter</button>
+      </div>
     </div>
+  </div>
     <div id="products" class="row list-group">
         <div class="item  col-xs-4 col-lg-4" ng-repeat = "product in data.products">
             <div class="thumbnail">
-                <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />
                 <div class="caption">
+                    <p class="group inner list-group-item-text" ng-bind-html = "getDealDescription(product)"></p>
                     <h4 class="group inner list-group-item-heading">
-                        {{product.name}}</h4>
+                        {{product.name}}</h4> <br>
                     <p class="group inner list-group-item-text">
-                      {{product.short_description}}
+                      <b>{{product.short_description}}</b>
+                    </p>
+                    <p class="group inner list-group-item-text">
+                      Brand: {{getItemById(data.brands, product.brand).name}}
+                    </p>
+                    <p class="group inner list-group-item-text">
+                      Material: {{getItemById(data.materials, product.material).name}}
                     </p>
                     <div class="row">
                         <div class="col-xs-12 col-md-6">
                             <p class="lead">${{product.price}}</p>
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <a class="btn btn-success" ng-click = "addToCart(product);">Add to cart</a>
+                            <a class="btn btn-success" ng-if = "!productIsInCart(product._id);" ng-click = "addToCart(product);">Add to cart</a>
+                            <a class="btn btn-success" ng-if = "productIsInCart(product._id);" ng-disabled = "true">Added to cart!</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="" ng-if = "data.products.length == 0">
+      No products found!
     </div>
 </div>

@@ -1,4 +1,4 @@
-angular.module('MasterApp', ['ui.router', 'ui.bootstrap', 'ngStorage', 'satellizer'])
+angular.module('MasterApp', ['ui.router', 'ui.bootstrap', 'ngStorage', 'satellizer', 'ui.select', 'ngSanitize'])
 
   .config(function($provide, $stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $stateProvider
@@ -40,6 +40,11 @@ angular.module('MasterApp', ['ui.router', 'ui.bootstrap', 'ngStorage', 'satelliz
         url: 'user/saved',
         templateUrl: '/partials/user/saved.html',
         controller: 'SavedCtrl'
+      })
+      .state('master.admin', {
+        url: 'admin/home',
+        templateUrl: '/partials/admin/home.html',
+        controller: 'AdminHomeCtrl'
       })
       ;
 

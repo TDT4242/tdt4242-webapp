@@ -1,0 +1,140 @@
+<div class="container">
+  
+  <h3>All store products</h3>
+  <div ng-if = "data.products.length == 0">
+    No products added to cart!
+  </div>
+  <table class="table table-striped" ng-if = "data.products.length != 0">
+  <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Brand</th>
+        <th>Category</th>
+        <th>Material</th>
+        <th>Stock quantity</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat = "product in data.products">
+        <td>{{product.name}}</td>
+        <td>${{product.price}}</td>
+        <td>{{getItemById(data.brands, product.brand).name}}</td>
+        <td>{{getProductCategories(product)}}</td>
+        <td>{{getItemById(data.materials, product.material).name}}</td>
+        <td>
+          <input type="number" class="form-control" ng-model = "product.new_quantity">
+        </td>
+        <td>
+          <button class = "btn btn-small btn-success pull-right" type="button" name="button" 
+          ng-click = "editStockQuantity(product);" ng-if = "product.stock_quantity != product.new_quantity">Save</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-success btn-md" ng-click = "showAddProduct(true);" ng-if = "!data.showAddProduct" style = "margin-top:10px;">Add new product</button>
+  
+  <!--Add new products-->
+  <div class="panel-group" ng-if = "data.showAddProduct">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Add new product</div>
+      <div class="panel-body">
+        <label for="name" style = "margin-top:10px;">Product name:</label>
+        <input type="text" class="form-control" id="name" placeholder="Name" ng-model = "data.newProductName">
+        <label for="short_description" style = "margin-top:10px;">Short product description:</label>
+        <input type="text" class="form-control" id="short_description" placeholder="Description" ng-model = "data.newProductShortDescription">
+        <label for="price" style = "margin-top:10px;">Product price:</label>
+        <input type="number" class="form-control" id="price" placeholder="Price in $" ng-model = "data.newProductPrice">
+        <label for="stock_quantity" style = "margin-top:10px;">Stock quantity:</label>
+        <input type="number" class="form-control" id="stock_quantity" placeholder="Quantity" ng-model = "data.newProductStockQuantity">
+        
+        <label for="brand" style = "margin-top:10px;">Product brand:</label>
+        <ui-select id="brand" ng-model="data.newProductBrand" theme="bootstrap" ng-disabled="false" style="min-width: 300px;" title="Choose a brand" append-to-body="true">
+          <ui-select-match placeholder="Select a brand in the list...">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="brand in data.brands | filter: $select.search">
+            <div ng-bind-html="brand.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+        
+        <label for="category" style = "margin-top:10px;">Product category:</label>
+        <ui-select id="category" ng-model="data.newProductCategory" theme="bootstrap" ng-disabled="false" style="min-width: 300px;" title="Choose a category" append-to-body="true">
+          <ui-select-match placeholder="Select a category in the list...">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="category in data.categories | filter: $select.search">
+            <div ng-bind-html="category.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+        
+        <label for="material" style = "margin-top:10px;">Product material:</label>
+        <ui-select id="material" ng-model="data.newProductMaterial" theme="bootstrap" ng-disabled="false" style="min-width: 300px;" title="Choose a material" append-to-body="true">
+          <ui-select-match placeholder="Select a material in the list...">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="material in data.materials | filter: $select.search">
+            <div ng-bind-html="material.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+        <div ng-if = "data.newProductValidationErrorMessage" style = "color:red;">
+          {{data.newProductValidationErrorMessage}}
+        </div>
+        <button type="button" class="btn btn-success pull-right" style = "margin-top:20px;" ng-click = "addNewProduct();">Add product</button>
+        <button type="button" class="btn btn-default pull-right" style = "margin-top:20px;margin-right:5px;" ng-click = "showAddProduct(false);">Cancel</button>
+
+      </div>
+    </div>
+  </div>
+  
+  <h3>Store deals</h3>
+  <div ng-if = "data.deals.length == 0">
+    No deals exist!
+  </div>
+  <table class="table table-striped" ng-if = "data.deals.length != 0">
+  <thead>
+      <tr>
+        <th>Product name</th>
+        <th>Description</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat = "deal in data.deals">
+        <td>{{getItemById(data.products, deal.product).name}}</td>
+        <td>{{getDealDescription(deal)}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-success btn-md" ng-click = "showAddDeal(true);" ng-if = "!data.showAddDeal" style = "margin-top:10px;">Add new deal</button>
+  <div class="panel-group" ng-if = "data.showAddDeal">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Add new deal</div>
+      <div class="panel-body">
+        <label for="brand" style = "margin-top:10px;">Product:</label>
+        <ui-select id="brand" ng-model="data.newDealProduct" theme="bootstrap" ng-disabled="false" style="min-width: 300px;" title="Choose a product" append-to-body="true">
+          <ui-select-match placeholder="Select a product in the list...">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="product in data.products | filter: $select.search">
+            <div ng-bind-html="product.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+        <label for="dealType" style = "margin-top:10px;">Deal type:</label> <br>
+        <div id="dealType" class="btn-group" style = "margin-top: 10px;">
+          <label class="btn btn-primary" ng-model="data.newDealType" uib-btn-radio="1">Percentage off deal</label>
+          <label class="btn btn-primary" ng-model="data.newDealType" uib-btn-radio="2">X for Y deal</label>
+        </div>
+        
+        <div class="" ng-if = "data.newDealType == 1">
+          <label for="percentage" style = "margin-top:10px;">Sales percentage (must be between 0 and 100):</label>
+          <input type="number" class="form-control" id="percentage" placeholder="Percentage" ng-model = "data.percentage">
+        </div>
+        <div class="" ng-if = "data.newDealType == 2">
+          <label for="x" style = "margin-top:10px;">Customer get this many items:</label>
+          <input type="number" class="form-control" id="x" placeholder="x" ng-model = "data.x">
+          <label for="y" style = "margin-top:10px;">And pays for this many items (must be smaller than value above):</label>
+          <input type="number" class="form-control" id="y" placeholder="y" ng-model = "data.y">
+        </div>
+        <div ng-if = "data.newDealValidationErrorMessage" style = "color:red;">
+          {{data.newDealValidationErrorMessage}}
+        </div>
+        <button type="button" class="btn btn-success pull-right" style = "margin-top:20px;" ng-click = "addNewDeal();">Add deal</button>
+        <button type="button" class="btn btn-default pull-right" style = "margin-top:20px;margin-right:5px;" ng-click = "showAddDeal(false);">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

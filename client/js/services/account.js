@@ -9,6 +9,21 @@ angular.module('MasterApp')
       },
       addToCart: function(data) {
         return $http.put('/api/user/addToCart', data);
+      },
+      getUser: function(data) {
+        return $http.post('/api/user/get', data);
+      },
+      getAdmin: function(data) {
+        return $http.post('/api/admin/get', data);
+      },
+      addNewProduct: function(data) {
+        return $http.put('/api/admin/add-product', data);
+      },
+      addNewDeal: function(data) {
+        return $http.put('/api/admin/add-deal', data);
+      },
+      editStockQuantity: function(data) {
+        return $http.put('/api/admin/edit-stock-quantity', data);
       }
     }
   }]);

@@ -5,3 +5,12 @@
 .link:hover {
   text-decoration: underline;
 }
+
+
+a:hover {
+  cursor: pointer;
+}
+
+.deal-tag {
+  color: red !important;
+}
