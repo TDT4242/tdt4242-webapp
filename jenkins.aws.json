@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image":{
-  	"Name": "mugthakk/tdt4242_jenkins_with_node",
+  	"Name": "jenkins:2.46.1",
   	"Update": "true"
   },
   "Ports": [
