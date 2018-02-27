@@ -5,7 +5,7 @@ pipeline {
 
 	    stage("Node install"){
 	    	steps {
-	    		sh "npm install"
+	    		sh "cd server && npm install"
 	    	}
 
 	    }
