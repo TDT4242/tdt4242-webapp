@@ -5,7 +5,10 @@ pipeline {
 
 	    stage("Node install"){
 	    	steps {
-	    		sh "npm install"
+	    		sh "apt-get update && apt-get -y install curl"
+	    		sh "curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+    				&& apt-get -y install python build-essential nodejs"
+	    		sh "cd server && npm install"
 	    	}
 
 	    }

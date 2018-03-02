@@ -17,9 +17,9 @@
   "containerDefinitions": [
     {
     "name": "jenkins",
-    "image": "mugthakk/tdt4242_jenkins_with_node",
-    "essential": true,
-    "memory":700,
+    "image": "jenkins:2.46.1",
+    "update": true,
+    "memory": 800,
     "mountPoints": [
         {
           "sourceVolume": "awseb-logs-jenkins",
@@ -36,8 +36,8 @@
     {
     "name": "production",
     "image": "mugthakk/tdt4242",
-    "essential": true,
-    "memory":100,
+    "memory": 100,
+    "update": true,
     "mountPoints": [
         {
           "sourceVolume": "awseb-logs-production",
