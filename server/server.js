@@ -17,6 +17,7 @@ var Models = require('./models/index.js');
 
 
 var app = express();
+var server = require('http').Server(app);
 
 mongoose.connect(config.DATABASE_URL);
 mongoose.connection.on('error', function(err) {
@@ -53,10 +54,17 @@ app.get('/*', function(req, res) {
 })
 
 
-app.listen(app.get('port'), function() {
+server.listen(app.get('port'), function() {
   console.log('app listening on port: ' + app.get('port'));
 });
 
+const io = require('socket.io')(server);
+io.on('connection', (socketServer) => {
+  socketServer.on('npmStop', () => {
+    console.log('received the stop');
+    process.exit(0);
+  });
+});
 
 
 function init() {
