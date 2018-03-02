@@ -24,6 +24,12 @@ mongoose.connection.on('error', function(err) {
   console.log('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
 });
 
+
+app.get('/serverIsUp', function(req, res) {
+  console.log('got request');
+  return res.status(200).send();
+})
+
 //init();
 //clear();
 
