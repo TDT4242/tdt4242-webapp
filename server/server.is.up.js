@@ -1,17 +1,19 @@
 var supertest = require("supertest");
+var should = require("should");
 
 var server = supertest.agent("http://localhost:3000");
 
-setTimeout(() => {
-
-  server
-  .get("/serverIsUp")
-  .expect("Content-type",/json/)
-  .end(function(err,res){
-    if (!res) {
-      var err = new Error("SERVER NOT RUNNING");
-      throw err;
-    }
+describe('Testing if server is running', function() {
+  it("Test if server is up",function(done) {
+    setTimeout(function() {
+      server
+      .get("/serverIsUp")
+      .expect("Content-type",/json/)
+      .end(function(err,res){
+        res.should.not.equal(null);
+        res.status.should.equal(200);
+        done();
+      });
+    }, 2000)
   });
-    
-}, 2000)
+})
