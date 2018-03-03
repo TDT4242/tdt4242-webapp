@@ -17,7 +17,7 @@ ADD . /
 
 
 # Install dependencies
-RUN ls -a
+RUN echo $(ls -a)
 RUN npm install
 
 
