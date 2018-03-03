@@ -23,6 +23,6 @@ RUN npm install
 # Expose port
 EXPOSE  3000
 
-WORKDIR /server
+WORKDIR /src/server
 # Run app
 CMD ["node", "server.js"]
