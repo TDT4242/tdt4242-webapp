@@ -15,6 +15,8 @@ RUN pwd
 WORKDIR /src
 COPY . .
 RUN ls -la
+RUN cd /src
+RUN ls -la
 
 # Install dependencies
 RUN npm install
