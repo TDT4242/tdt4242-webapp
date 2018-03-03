@@ -9,5 +9,10 @@
     {
 		"ContainerPort": "3000"
     }
-  ]
+  ],
+  "Volumes": [
+  	{
+  		"HostDirectory": "/var/app/current",
+  		"ContainerDirectory": "/src"
+  	}]
 }
