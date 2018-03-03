@@ -23,6 +23,8 @@ os: linux
 #   "files" section altogether. A blank or incomplete "files" section
 #   may cause associated deployments to fail.
 files:
+  - source: package.json
+    destination: /src/package.json
   - source: /client
     destination: /src/client
   - source: /server

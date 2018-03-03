@@ -18,12 +18,13 @@ ADD . /src
 ADD . /src/server
 
 # Install dependencies
-RUN cd server && npm install
+RUN npm install
+
 
 # Expose port
 EXPOSE  3000
 
 WORKDIR /src/server
-
+RUN cd /src/server
 # Run app
 CMD ["node", "server.js"]
