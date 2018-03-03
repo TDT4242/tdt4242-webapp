@@ -15,7 +15,9 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
 WORKDIR /src
 ADD . /src
 
-ADD . /src/server
+RUN ls -a
+
+
 
 # Install dependencies
 RUN npm install
