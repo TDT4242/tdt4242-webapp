@@ -13,20 +13,17 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
 
 
 WORKDIR /src
-ADD . /src
-
-RUN ls -a
-
+ADD . /
 
 
 # Install dependencies
+RUN ls -a
 RUN npm install
 
 
 # Expose port
 EXPOSE  3000
 
-WORKDIR /src/server
-RUN cd /src/server
+WORKDIR server
 # Run app
 CMD ["node", "server.js"]
