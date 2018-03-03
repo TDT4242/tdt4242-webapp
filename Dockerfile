@@ -28,5 +28,5 @@ EXPOSE  3000
 
 WORKDIR server
 # Run app
-CMD ["pwd"]
+RUN pwd
 CMD ["node", "server.js"]
