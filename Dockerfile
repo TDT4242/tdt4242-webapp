@@ -11,7 +11,7 @@ RUN apt-get update && \
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
     && apt-get -y install python build-essential nodejs
 
-
+RUN pwd
 COPY /src /src/
 WORKDIR /src
 RUN ls -la
