@@ -30,6 +30,6 @@ files:
 #   may cause associated deployments to fail.
 hooks:
   ApplicationStart:
-    - location: scripts/startup.sh
+    - location: startup.sh
       timeout: 300
       runas: root
