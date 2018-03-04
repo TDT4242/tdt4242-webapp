@@ -25,6 +25,14 @@
     <!-- Latest compiled and minified JavaScript
     <div class="loading" ng-if = "$root.loading">Loading&#8230;</div>
     -->
+    <div ng-if = "$root.alertMessage" class="alert alert-danger" style = "text-align:center;">
+      <a ng-click = "hideAlert();" class="close" aria-label="close">&times;</a>
+      <strong>Oooops!</strong> {{ $root.alertMessage }}
+    </div>
+    <div ng-if = "$root.successMessage" class="alert alert-success" style = "text-align:center;">
+      <a ng-click = "hideSuccess();" class="close" aria-label="close">&times;</a>
+      <strong>Success!</strong> {{ $root.successMessage }}
+    </div>
     <div ui-view class="fadeZoom"></div>
     <!-- Latest compiled and minified JavaScript -->
     <script src="/bower_components/angular/angular.min.js"></script>

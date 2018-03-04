@@ -1,7 +1,7 @@
 angular.module('MasterApp')
   .factory('User',
-  ['Account', '$rootScope',
-  function(Account, $rootScope) {
+  ['Account', '$rootScope', '$auth',
+  function(Account, $rootScope, $auth) {
     return {
       updateUser: function() {
         Account.getUser({}).then(function(response) {
@@ -12,7 +12,9 @@ angular.module('MasterApp')
           }
         }).catch(function(err) {
           console.log(err);
-          $rootScope.alertMessage = err.data.message;
+          if ($auth.isAuthenticated()) {
+            $rootScope.alertMessage = err.data.message;
+          }
         });
       }
     }

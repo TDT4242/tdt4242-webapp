@@ -218,5 +218,16 @@ angular.module('MasterApp')
         $rootScope.alertCb();
       }
     }
+    $scope.showSuccess = function(message, cb) {
+      $rootScope.successMessage = message;
+      $rootScope.alertMessage = null;
+      $rootScope.successCb = cb;
+    }
+    $scope.hideSuccess = function() {
+      $rootScope.successMessage = null;
+      if ($rootScope.successCb) {
+        $rootScope.successCb();
+      }
+    }
 
   }]);
