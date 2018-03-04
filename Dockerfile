@@ -31,7 +31,7 @@ RUN ls -la
 
 
 # Expose port
-EXPOSE  3000
+EXPOSE 3000
 
 
 # Run app
