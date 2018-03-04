@@ -9,9 +9,5 @@
     {
 		"ContainerPort": "3000"
     }
-  ],
-  "Volumes": [
-  	{
-  		"HostDirectory": "opt/codedeploy-agent"
-  	}]
+  ]
 }
