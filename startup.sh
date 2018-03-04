@@ -2,7 +2,7 @@
 
 docker rm -f $(docker ps -a -q)
 docker rmi $(docker images -q)
-docker pull mugthakk/tdt4242
+docker build -t mugthakk/tdt4242:latest - < Dockerfile
 pwd
 ls -la
 cd server && ls -la && cd ..
