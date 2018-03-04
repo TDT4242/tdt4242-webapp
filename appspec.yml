@@ -31,5 +31,5 @@ files:
 hooks:
   ApplicationStart:
     - location: startup.sh
-      timeout: 300
+      timeout: 500
       runas: root
