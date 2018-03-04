@@ -16,6 +16,7 @@ RUN apt-get install -y git
 
 ADD https://api.github.com/repos/tdt4242/tdt4242-webapp/git/refs/heads/master version.json
 RUN git clone --depth=1 https://github.com/tdt4242/tdt4242-webapp.git
+RUN cd tdt4242-webapp && git pull && cd ..
 
 # Copy repo into container
 COPY . .
