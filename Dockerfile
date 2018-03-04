@@ -16,7 +16,7 @@ WORKDIR .
 COPY . .
 RUN pwd
 RUN ls -la
-WORKDIR /src
+WORKDIR server
 RUN ls -la
 
 # Install dependencies
