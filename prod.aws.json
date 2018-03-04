@@ -1,0 +1,14 @@
+{
+	
+  "AWSEBDockerrunVersion": "1",
+  "Image":{
+  	"Name": "mugthakk/tdt4242",
+  	"Update": "true"
+  },
+  "Ports": [
+    {
+		"HostPort": "8080",
+		"ContainerPort": "3000"
+    }
+  ]
+}
