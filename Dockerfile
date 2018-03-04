@@ -29,7 +29,6 @@ RUN ls -la
 # Expose port
 EXPOSE  3000
 
-RUN pwd
-RUN echo trying entrypoint
+
 # Run app
-ENTRYPOINT ["node", "server.js"]
+CMD ["node", "server.js"]
