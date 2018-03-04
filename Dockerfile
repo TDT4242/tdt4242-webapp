@@ -16,13 +16,15 @@ WORKDIR .
 COPY . .
 RUN pwd
 RUN ls -la
-WORKDIR server
-RUN pwd
-RUN ls -la
 
 # Install dependencies
 RUN echo trying npm install
 RUN npm install
+
+WORKDIR server
+RUN pwd
+RUN ls -la
+
 
 # Expose port
 EXPOSE  3000
