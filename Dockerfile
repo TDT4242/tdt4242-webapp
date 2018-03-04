@@ -11,22 +11,17 @@ RUN apt-get update && \
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
     && apt-get -y install python build-essential nodejs
 
-RUN pwd
-WORKDIR .
-COPY . .
-RUN pwd
-RUN ls -la
+
 WORKDIR /src
-RUN ls -la
+ADD . /src
 
 # Install dependencies
-RUN npm install
-
+RUN cd server && npm install
 
 # Expose port
 EXPOSE  3000
 
-WORKDIR server
+WORKDIR /src/server
+
 # Run app
-RUN pwd
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
