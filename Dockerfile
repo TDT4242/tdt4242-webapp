@@ -29,4 +29,4 @@ EXPOSE  3000
 WORKDIR /src/server
 
 # Run app
-CMD ["node", "server.js"]
+ENTRYPOINT ["node", "server.js"]
