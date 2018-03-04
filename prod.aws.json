@@ -12,6 +12,6 @@
   ],
   "Volumes": [
   	{
-  		"HostDirectory": "var/app/current"
+  		"HostDirectory": "opt/codedeploy-agent"
   	}]
 }
