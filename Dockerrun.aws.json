@@ -1,8 +1,6 @@
 {
   "AWSEBDockerrunVersion": "1",
-  "Ports": [
-    {
-      "ContainerPort": "3000"
-    }
-  ]
+  "Image": {
+  	"Update": "false"
+  }
 }
