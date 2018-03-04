@@ -7,7 +7,7 @@ MAINTAINER Stein-Aage Klaussen
 RUN apt-get update && \
     apt-get -y install curl
 
-# Install Node.jssss
+# Install Node.jssssss
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
     && apt-get -y install python build-essential nodejs
 
