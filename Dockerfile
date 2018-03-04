@@ -17,13 +17,17 @@ COPY . .
 RUN pwd
 RUN ls -la
 WORKDIR server
+RUN pwd
 RUN ls -la
 
 # Install dependencies
+RUN echo trying npm install
 RUN npm install
 
 # Expose port
 EXPOSE  3000
 
+RUN pwd
+RUN echo trying entrypoint
 # Run app
 ENTRYPOINT ["node", "server.js"]
