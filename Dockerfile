@@ -14,9 +14,8 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
 # Install git and pull down repo
 RUN apt-get install -y git
 
-RUN git clone --depth=1 https://github.com/TDT4242/tdt4242-webapp.git
-
-
+ADD https://api.github.com/repos/tdt4242/tdt4242-webapp/git/refs/heads/master version.json
+RUN git clone --depth=1 https://github.com/tdt4242/tdt4242-webapp.git
 
 # Copy repo into container
 COPY . .
