@@ -20,12 +20,10 @@ WORKDIR server
 RUN ls -la
 
 # Install dependencies
-RUN cd server && npm install
+RUN npm install
 
 # Expose port
 EXPOSE  3000
-
-WORKDIR /src/server
 
 # Run app
 ENTRYPOINT ["node", "server.js"]
