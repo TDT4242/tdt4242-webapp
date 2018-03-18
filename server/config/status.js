@@ -178,5 +178,29 @@ module.exports = {
       message: 'The price filter value provided was invalid.',
       code: 2001
     }
+  },
+  OUT_OF_STOCK: {
+    eng: {
+      message: 'Sorry, but the quantity selected of these products is not available: ',
+      code: 2001
+    }
+  },
+  NO_PRODUCTS_SELECTED: {
+    eng: {
+      message: 'You have not selected any products. Please select some products and then proceed to checkout.',
+      code: 2001
+    }
+  },
+  MINIMUM_QUANTITY_MUST_BE_1: {
+    eng: {
+      message: 'The minimum selected quantity of each selected product must be 1.',
+      code: 2001
+    }
+  },
+  DEAL_ALREADY_EXISTS: {
+    eng: {
+      message: 'A deal already exists for this item.',
+      code: 2001
+    }
   }
 }
