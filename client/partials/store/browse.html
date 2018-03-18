@@ -4,6 +4,15 @@
     <div class="panel panel-primary">
       <div class="panel-heading">Filter products</div>
       <div class="panel-body">
+        <label for="searchText" style = "margin-top:10px;">Search text:</label>
+        <input id="searchText" type="text" class="form-control" style = "width:800px;" ng-model = "data.searchText" placeholder="Your search text">
+
+        <label for="upperPriceLimit" style = "margin-top:10px;">Upper price limit:</label>
+        <input id="upperPriceLimit" type="number" class="form-control" style = "width:800px;" ng-model = "data.upperPriceLimit" placeholder="Upper price limit">
+
+        <label for="lowerPriceLimit" style = "margin-top:10px;">Lower price limit:</label>
+        <input id="lowerPriceLimit" type="number" class="form-control" style = "width:800px;" ng-model = "data.lowerPriceLimit" placeholder="Lower price limit">
+
         <label for="brands" style = "margin-top:10px;">Filter by brands:</label>
         <ui-select id="brands" multiple ng-model="data.filterBrands" theme="bootstrap" ng-disabled="false" sortable="true" close-on-select="false" style="width: 800px;">
           <ui-select-match placeholder="Select brand(s)">{{$item.name}}</ui-select-match>

@@ -25,6 +25,10 @@ mongoose.connection.on('error', function(err) {
   console.log('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
 });
 
+Models.Brand.findById('5a9c08c384b799ede7b44219', function(err, brand) {
+  console.log(brand);
+})
+
 
 app.get('/serverIsUp', function(req, res) {
   console.log('got request');
@@ -172,7 +176,7 @@ function init() {
                     })
                   })
                 })
-              })    
+              })
             })
           })
         })

@@ -9,6 +9,9 @@ angular.module('MasterApp')
       categories: [],
       materials: [],
       cart: [],
+      searchText: '',
+      upperPriceLimit: undefined,
+      lowerPriceLimit: undefined,
       filterBrands: [],
       filterCategories: [],
       filterMaterials: [],
@@ -33,7 +36,7 @@ angular.module('MasterApp')
         }
       }
     }
-    
+
     $scope.getDealDescription = function(product) {
       for (var i = 0; i < $scope.data.deals.length; i++) {
         if ($scope.data.deals[i].product == product._id) {
@@ -46,7 +49,7 @@ angular.module('MasterApp')
       }
       return $sce.trustAsHtml('<div style = "color:white;">SuperStore</div>');
     }
-    
+
     $scope.getIdsForItems = function(items) {
       var ids = [];
       for (var i = 0; i < items.length; i++) {
@@ -54,7 +57,7 @@ angular.module('MasterApp')
       }
       return ids;
     }
-    
+
     $scope.filterProducts = function() {
       var priceFilter = -1;
       if ($scope.data.priceFilter) {
@@ -62,6 +65,9 @@ angular.module('MasterApp')
       }
       console.log(priceFilter);
       Account.searchProducts({
+        searchText: $scope.data.searchText,
+        upperPriceLimit: $scope.data.upperPriceLimit,
+        lowerPriceLimit: $scope.data.lowerPriceLimit,
         priceFilter: priceFilter,
         brands: $scope.getIdsForItems($scope.data.filterBrands),
         categories: $scope.getIdsForItems($scope.data.filterCategories),
@@ -107,8 +113,8 @@ angular.module('MasterApp')
       console.log(err);
       $scope.showAlert(err.data.message, null);
     });
-    
-    
+
+
     $scope.productIsInCart = function(product_id) {
       if ($rootScope.user) {
         for (var i = 0; i < $rootScope.user.cart_products.length; i++) {
