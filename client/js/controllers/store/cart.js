@@ -1,8 +1,8 @@
 angular.module('MasterApp')
-  .controller('CartCtrl',['$scope', '$state', '$rootScope', '$localStorage', 'User', 'Account',
-  function($scope, $state, $rootScope, $localStorage, User, Account) {
+  .controller('CartCtrl',['$scope', '$state', '$rootScope', '$localStorage', 'User',
+  function($scope, $state, $rootScope, $localStorage, User) {
     console.log('CartCtrl');
-
+    
     User.updateUser();
 
 
@@ -70,7 +70,6 @@ angular.module('MasterApp')
         $scope.showAlert(err.data.message, null);
       });
     }
-
     $scope.getCartProducts = function() {
       if ($rootScope.user) {
         return $rootScope.user.cart_products;
@@ -78,13 +77,7 @@ angular.module('MasterApp')
         return [];
       }
     }
-    $scope.getOrders = function() {
-      if ($rootScope.user) {
-        return $rootScope.orders;
-      } else {
-        return [];
-      }
-    }
+    
     $scope.getProduct = function(cartProduct) {
       for (var i = 0; i < $rootScope.products.length; i++) {
         if ($rootScope.products[i]._id == cartProduct.product) {

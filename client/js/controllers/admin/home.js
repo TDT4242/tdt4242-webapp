@@ -13,8 +13,8 @@ angular.module('MasterApp')
       newProductValidationErrorMessage: null,
       newDealValidationErrorMessage: null
     };
-
-
+    
+    
     $scope.editStockQuantity = function(product) {
       Account.editStockQuantity({
         product_id: product._id,
@@ -27,17 +27,17 @@ angular.module('MasterApp')
       }).catch(function(err) {
         console.log(err);
         $scope.showAlert(err.data.message, null);
-      })
+      })  
     }
-
+    
     $scope.showAddProduct = function(show) {
       $scope.data.showAddProduct = show;
     }
-
+    
     $scope.showAddDeal = function(show) {
       $scope.data.showAddDeal = show;
     }
-
+    
     $scope.getDealDescription = function(deal) {
       if (deal.percentage !== null) {
         return deal.percentage + ' % off';
@@ -45,8 +45,8 @@ angular.module('MasterApp')
         return deal.x + ' for ' + deal.y;
       }
     }
-
-
+    
+    
     $scope.addNewProduct = function() {
       if ($scope.validateNewProduct()) {
         console.log('adding new product');
@@ -74,10 +74,10 @@ angular.module('MasterApp')
         }).catch(function(err) {
           console.log(err);
           $scope.showAlert(err.data.message, null);
-        })
+        })  
       }
     }
-
+    
     $scope.addNewDeal = function() {
       if ($scope.validateNewDeal()) {
         console.log('adding new deal');
@@ -97,10 +97,10 @@ angular.module('MasterApp')
         }).catch(function(err) {
           console.log(err);
           $scope.showAlert(err.data.message, null);
-        })
+        })  
       }
     }
-
+    
     $scope.validateNewProduct = function() {
       $scope.data.newProductValidationErrorMessage = null;
       if (typeof $scope.data.newProductName != 'string' || $scope.data.newProductName.trim() == '') {
@@ -127,7 +127,7 @@ angular.module('MasterApp')
       }
       return true;
     }
-
+    
     $scope.validateNewDeal = function() {
       $scope.data.newDealValidationErrorMessage = null;
       if (!$scope.data.newDealProduct) {
@@ -136,7 +136,7 @@ angular.module('MasterApp')
       } else if (!$scope.data.newDealType) {
         $scope.showValidationAlert('newDeal', 'Please select a type for the deal.')
         return false;
-      }
+      } 
       if ($scope.data.newDealType == 1) {
         if (typeof $scope.data.percentage != 'number' || $scope.data.percentage <= 0 || $scope.data.percentage >= 100) {
           $scope.showValidationAlert('newDeal', 'Please select enter a valid percentage number for this deal.')
@@ -155,7 +155,7 @@ angular.module('MasterApp')
       return true;
 
     }
-
+    
     Account.getAdmin({}).then(function(response) {
       $scope.data = response.data.data;
       for (var i = 0; i < $scope.data.products.length; i++) {
@@ -166,7 +166,7 @@ angular.module('MasterApp')
       console.log(err);
       $scope.showAlert(err.data.message, null);
     })
-
+    
     $scope.getItemById = function(items, id) {
       for (var i = 0; i < items.length; i++) {
         if (items[i]._id == id) {
@@ -175,23 +175,21 @@ angular.module('MasterApp')
       }
       return null;
     }
-
+    
     $scope.getProductCategories = function(product) {
       var returnString = "";
-      var counter = 0;
       for (var i = 0; i < $scope.data.categories.length; i++) {
         if (product.categories.indexOf($scope.data.categories[i]._id) != -1) {
-          if (counter == 0) {
+          if (i == 0) {
             returnString += $scope.data.categories[i].name;
           } else {
             returnString += ', ' + $scope.data.categories[i].name;
           }
-          counter++;
         }
       }
       return returnString;
     }
-
+    
     $scope.showValidationAlert = function(type, message) {
       if (type == 'newProduct') {
         $scope.data.newProductValidationErrorMessage = message;
@@ -199,7 +197,7 @@ angular.module('MasterApp')
         $scope.data.newDealValidationErrorMessage = message;
       }
     }
-
+    
     $scope.hideValidationAlert = function(type, message, cb) {
       if (type == 'newProduct') {
         $scope.data.newProductValidationErrorMessage = null;
