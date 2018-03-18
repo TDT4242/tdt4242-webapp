@@ -33,17 +33,6 @@ module.exports = {
     } else {
       req.body.searchText = req.body.searchText;
     }
-
-    if (typeof req.body.priceFilter != 'number' || [-1,1,2].indexOf(req.body.priceFilter) == -1) {
-      return res.status(406).send({ message: status.INVALID_PRICE_FILTER[req.language].message, status: status.INVALID_PRICE_FILTER.code });
-    }
-    if (req.body.priceFilter == 1) {
-      req.body.priceFilter = { sort: { price: 1 } };
-    } else if (req.body.priceFilter == 2) {
-      req.body.priceFilter = { sort: { price: -1 } };
-    } else {
-      req.body.priceFilter = null;
-    }
     if (!Array.isArray(req.body.brands)) {
       return res.status(406).send({ message: status.INVALID_BRANDS[req.language].message, status: status.INVALID_BRANDS.code });
     }
