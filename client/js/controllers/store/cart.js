@@ -5,6 +5,7 @@ angular.module('MasterApp')
 
     User.updateUser();
 
+
     $scope.getDateFromIso = function(iso) {
       var d = new Date(iso);
       var date = d.getDate(); if (date < 10) {date='0'+date;}
