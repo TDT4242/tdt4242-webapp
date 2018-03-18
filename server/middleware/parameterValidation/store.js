@@ -5,6 +5,35 @@ var status = require('../../config/status.js');
 module.exports = {
   search: function(req, res, next) {
     console.log(req.body);
+    req.body.priceLimitQuery = {
+      $and: []
+    };
+    if (typeof req.body.lowerPriceLimit == 'number') {
+      console.log();
+      req.body.priceLimitQuery.$and.push({
+        price: { $gt: req.body.lowerPriceLimit }
+      });
+    }
+    if (typeof req.body.upperPriceLimit == 'number') {
+      req.body.priceLimitQuery.$and.push({
+        price: { $lt: req.body.upperPriceLimit }
+      });
+    }
+    if (typeof req.body.upperPriceLimit != 'number' && typeof req.body.lowerPriceLimit != 'number') {
+      req.body.priceLimitQuery = null;
+    }
+    console.log(req.body.priceLimitQuery);
+
+    if (typeof req.body.searchText != 'string') {
+      req.body.searchText = null;
+    } else if (!validator.isAlphanumeric(req.body.searchText)) {
+      req.body.searchText = null;
+    } else if (req.body.searchText.trim() == '') {
+      req.body.searchText = null;
+    } else {
+      req.body.searchText = req.body.searchText;
+    }
+
     if (typeof req.body.priceFilter != 'number' || [-1,1,2].indexOf(req.body.priceFilter) == -1) {
       return res.status(406).send({ message: status.INVALID_PRICE_FILTER[req.language].message, status: status.INVALID_PRICE_FILTER.code });
     }
