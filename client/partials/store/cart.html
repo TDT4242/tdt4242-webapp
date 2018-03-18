@@ -5,29 +5,54 @@
       <tr>
         <th>Name</th>
         <th>Price</th>
-        <!--
         <th>Quantity</th>
         <th></th>
-      -->
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat = "cartProduct in getCartProducts()">
         <td>{{getProduct(cartProduct).name}}</td>
         <td>${{getProduct(cartProduct).price}}</td>
-        <!--
         <td>
           <input type="number" class="form-control" ng-model = "cartProduct.newQuantity">
         </td>
         <td>
-          <button class = "btn btn-small btn-success pull-right" type="button" name="button" ng-click = "saveProduct();" ng-if = "cartProduct.quantity != cartProduct.newQuantity">Save</button>
-          <button class = "btn btn-small btn-danger pull-right" type="button" name="button" ng-click = "deleteProductFromCart();">Delete</button>
+          <button class = "btn btn-small btn-danger pull-right" type="button" name="button" ng-click = "deleteProductFromCart(cartProduct._id);">Delete</button>
+          <button class = "btn btn-small btn-success pull-right" type="button" name="button" ng-click = "updateProductInCart(cartProduct._id, cartProduct.newQuantity);"
+          ng-if = "cartProduct.quantity != cartProduct.newQuantity"
+          style = "margin-right:5px;">Save</button>
         </td>
-      -->
       </tr>
     </tbody>
   </table>
   <div ng-if = "getCartProducts().length == 0">
     No products added to cart!
+  </div>
+  <button class = "btn btn-small btn-success pull-right" type="button" name="button" ng-click = "checkout();"
+  ng-if = "getCartProducts().length > 0"
+  style = "margin-right:5px;">Place order</button>
+
+  <!--Orders placed-->
+  <h3>My orders</h3>
+  <table class="table table-striped" ng-if = "getOrders().length != 0">
+  <thead>
+      <tr>
+        <th>Date placed</th>
+        <th>Number of items</th>
+        <th>Cost</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat = "order in getOrders()">
+        <td>{{getDateFromIso(order.date_placed)}}</td>
+        <td>{{getNumberOfItems(order)}}</td>
+        <td>${{getOrderCost(order.products)}}</td>
+        <td>{{getStatusDescription(order.status)}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div ng-if = "getOrders().length == 0">
+    You have not placed any orders!
   </div>
 </div>
