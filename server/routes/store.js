@@ -54,6 +54,17 @@ module.exports = function(app) {
       $and: []
     };
 
+    /*
+    var searchQuery = {
+      $or: [
+      // idQueries
+        {
+          $or: [{category: { $in: category_ids }}, {brand: { $in: brand_ids }}, {material: { $in: material_ids }}]
+        },
+        filterQuery
+      ]
+    }
+    */
     var filterOptionsSelected = req.body.brands.length != 0 || req.body.categories.length != 0 || req.body.materials.length != 0 || req.body.priceLimitQuery;
     var searchTextEntered = req.body.searchText !== null;
     if (filterOptionsSelected || searchTextEntered) {
@@ -89,6 +100,8 @@ module.exports = function(app) {
     async.waterfall(waterfallArr, function(err, idQueries) {
       if (err) {throw err;}
       if (searchTextEntered && idQueries.$or.length > 0) {searchQuery.$and.push(idQueries);}
+      console.log(idQueries);
+      console.log(searchQuery);
       Models.Product.find(searchQuery, function(err, products) {
         if (err) {throw err;}
         var brand_ids = [];
