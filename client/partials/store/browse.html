@@ -34,13 +34,6 @@
             <div ng-bind-html="material.name | highlight: $select.search"></div>
           </ui-select-choices>
         </ui-select>
-        <label for="priceFilter" style = "margin-top:10px;">Use price filter:</label>
-        <ui-select id="priceFilter" ng-model="data.priceFilter" theme="bootstrap" ng-disabled="false" style="width: 800px;" title="Choose a price filter" append-to-body="true">
-          <ui-select-match placeholder="Select a price filter in the list...">{{$select.selected.name}}</ui-select-match>
-          <ui-select-choices repeat="priceFilter in data.priceFilters | filter: $select.search">
-            <div ng-bind-html="priceFilter.name | highlight: $select.search"></div>
-          </ui-select-choices>
-        </ui-select>
         <button type="button" class="btn btn-success btn-md" ng-click = "filterProducts();" style = "margin-top:10px;">Apply filter</button>
       </div>
     </div>
