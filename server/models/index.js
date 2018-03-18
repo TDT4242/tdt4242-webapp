@@ -4,6 +4,5 @@ module.exports = {
   Deal: require('./DealSchema.js'),
   Material: require('./MaterialSchema.js'),
   Product: require('./ProductSchema.js'),
-  User: require('./UserSchema.js'),
-  Order: require('./OrderSchema.js')
+  User: require('./UserSchema.js')
 }
