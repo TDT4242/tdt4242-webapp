@@ -92,6 +92,9 @@ app.get('/*', function(req, res) {
 
 server.listen(app.get('port'), function() {
   console.log('app listening on port: ' + app.get('port'));
+  if (process.env.production !== 'true') {
+    process.exit(0);
+  }
 });
 
 const io = require('socket.io')(server);
