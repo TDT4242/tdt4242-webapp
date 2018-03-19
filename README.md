@@ -4,16 +4,16 @@
 
 Currently our group is hosting the latest version of this application on AWS, and it can be accesed [here](http://tdttest-dev.eu-west-1.elasticbeanstalk.com/)
 
-### How to setup  
+### How to setup
 If the above link is down (due to the project being finished) then you manually have to follow this set of steps:
-  	1. Clone this repo
-	2. Make sure you have installed both Node.js and can access this from some terminal.
-	3. Navigate into the root of our project and run "npm install" to install dependencies.
-	4. Navigate into "/server" and run "node server.js" to start the server.
-	5. Access the application by going accessing "localhost:3000" in your web browser.
+  1. Clone this repo
+  2. Make sure you have installed both Node.js and can access this from some terminal.
+  3. Navigate into the root of our project and run "npm install" to install dependencies.
+  4. Navigate into "/server" and run "node server.js" to start the server.
+  5. Access the application by going accessing "localhost:3000" in your web browser.
 
 If you would rather run this using Docker then follow this set of steps:
-	1. Be smart
+  1. Be smart
 
 ### Requirements
 Following are the two sets of use cases (which were how our requirements were specified) for the two iterations of this project.  
