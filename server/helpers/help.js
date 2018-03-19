@@ -9,25 +9,25 @@ try {
 } catch (e) {
   
 }
- 
 
-function getPrice(product, price, cb) {
-  Models.Deal.findOne({ product: product.product }, function(err, deal) {
-    if (err) {throw err;}
-    if (!deal) {
-      return cb(price * product.quantity)
-    }
-    if (deal.percentage) {
-      return cb(price * product.quantity * (1 - deal.percentage * 0.01));
-    }
-    if (deal.x && product.quantity >= deal.x) {
-      var numberOfDeals = Math.floor(product.quantity/deal.x);
-      var numberOfFreeProducts = product.quantity - (deal.y * numberOfDeals);
+function getPrice(product, price, deal, cb) {
+  if (!deal) {
+    return cb(roundIt(price * product.quantity));
+  }
+  if (deal.percentage) {
+    return cb(roundIt(price * product.quantity * (1 - deal.percentage * 0.01)));
+  }
+  if (deal.x && product.quantity >= deal.x) {
+    var numberOfDeals = Math.floor(product.quantity/deal.x)
+    var numberOfFreeProducts = product.quantity - (deal.y * numberOfDeals)
 
-      return cb((product.quantity - numberOfFreeProducts) * price)
-    }
-    return cb(price * product.quantity)
-  })
+    return cb(roundIt((product.quantity - numberOfFreeProducts) * price));
+  }
+  return cb(roundIt(price * product.quantity));
+}
+
+function roundIt(number) {
+  return Math.floor(number * 100)/100;
 }
 
 function sendError(language, key) {

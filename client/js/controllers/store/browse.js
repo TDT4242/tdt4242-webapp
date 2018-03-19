@@ -36,6 +36,15 @@ angular.module('MasterApp')
         }
       }
     }
+    
+    $scope.getProductPrice = function(product) {
+      for (var i = 0; i < $scope.data.deals.length; i++) {
+        if ($scope.data.deals[i].product == product._id) {
+          return User.getPrice(1, product.price, $scope.data.deals[i]);
+        }
+      }
+      return User.getPrice(1, product.price, null);
+    }
 
     $scope.getDealDescription = function(product) {
       for (var i = 0; i < $scope.data.deals.length; i++) {
