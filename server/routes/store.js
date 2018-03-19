@@ -3,6 +3,8 @@ var Middleware = require('../middleware/index.js');
 var userAuth = require('../middleware/authentication/user.js');
 var status = require('../config/status.js');
 var async = require('async');
+var help = require('../helpers/help.js');
+
 
 var bcrypt = require('bcryptjs');
 

@@ -6,6 +6,7 @@ var User = require('../models/UserSchema.js');
 var Middleware = require('../middleware/index.js');
 var userAuth = require('../middleware/authentication/user.js');
 var status = require('../config/status.js');
+var help = require('../helpers/help.js');
 
 var bcrypt = require('bcryptjs');
 
@@ -16,7 +17,7 @@ module.exports = function(app) {
     User.findOne({ email: req.body.email }, function(err, user) {
       if (err) {throw err;}
       if (!user) {
-        return res.status(406).send({ message: status.USER_DOES_NOT_EXIST[req.language].message, status: status.USER_DOES_NOT_EXIST.code });
+        return res.status(406).send(help.sendError(req.language, 'USER_DOES_NOT_EXIST'));
       }
       console.log(user);
       console.log(req.body.password, user.password);
@@ -24,7 +25,7 @@ module.exports = function(app) {
         if (err) {throw err;}
         console.log(isMatch);
         if (!isMatch) {
-          return res.status(406).send({ message: status.WRONG_PASSWORD[req.language].message, status: status.WRONG_PASSWORD.code });
+          return res.status(406).send(help.sendError(req.language, 'WRONG_PASSWORD'));
         }
         return res.status(200).send({ user: user, token: userAuth.createJWT(user) })
       })
@@ -35,7 +36,7 @@ module.exports = function(app) {
     User.findOne({ email: req.body.email }, function(err, user) {
       if (err) {throw err;}
       if (user) {
-        return res.status(406).send({ message: status.USER_ALREADY_EXISTS[req.language].message, status: status.USER_ALREADY_EXISTS.code });
+        return res.status(406).send(help.sendError(req.language, 'USER_ALREADY_EXISTS'));
       }
       var newUser = new User({
         first_name: req.body.first_name,

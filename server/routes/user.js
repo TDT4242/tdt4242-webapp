@@ -10,7 +10,7 @@ module.exports = function(app) {
   app.post('/api/user/get', Middleware.misc.language, Middleware.parameterValidation.user.getUser, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
-      if (!user) {return res.status(406).send({ message: status.INVALID_USER_AUTHENTICATION[req.language].message, status: status.INVALID_USER_AUTHENTICATION.code });}
+      if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
       var product_ids = [];
       for (var i = 0; i < user.cart_products.length; i++) {
         product_ids.push(user.cart_products[i].product);
@@ -40,15 +40,15 @@ module.exports = function(app) {
   app.put('/api/user/addToCart', Middleware.misc.language, Middleware.parameterValidation.user.addToCart, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
-      if (!user) {return res.status(406).send({ message: status.INVALID_USER_AUTHENTICATION[req.language].message, status: status.INVALID_USER_AUTHENTICATION.code });}
+      if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
       Models.Product.findById(req.body.product_id, function(err, product) {
         if (err) {throw err;}
         if (!product) {
-          return res.status(406).send({ message: status.PRODUCT_ID_INVALID[req.language].message, status: status.PRODUCT_ID_INVALID.code });
+          return res.status(406).send(help.sendError(req.language, 'PRODUCT_ID_INVALID'));
         }
         for (var i = 0; i < user.cart_products.length; i++) {
           if (user.cart_products[i].product == req.body.product_id) {
-            return res.status(406).send({ message: status.PRODUCT_ALREADY_IN_CART[req.language].message, status: status.PRODUCT_ALREADY_IN_CART.code });
+            return res.status(406).send(help.sendError(req.language, 'PRODUCT_ALREADY_IN_CART'));
           }
         }
         user.cart_products.push({
@@ -68,7 +68,7 @@ module.exports = function(app) {
   app.put('/api/user/deleteProductFromCart', Middleware.misc.language, Middleware.parameterValidation.user.deleteProductFromCart, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
-      if (!user) {return res.status(406).send({ message: status.INVALID_USER_AUTHENTICATION[req.language].message, status: status.INVALID_USER_AUTHENTICATION.code });}
+      if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
       var found = false;
       var index = null;
       for (var i = 0; i < user.cart_products.length; i++) {
@@ -78,7 +78,7 @@ module.exports = function(app) {
         }
       }
       if (index === null) {
-        return res.status(406).send({ message: status.PRODUCT_ID_INVALID[req.language].message, status: status.PRODUCT_ID_INVALID.code });
+        return res.status(406).send(help.sendError(req.language, 'PRODUCT_ID_INVALID'));
       }
       user.cart_products.splice(index, 1);
 
@@ -94,7 +94,7 @@ module.exports = function(app) {
   app.put('/api/user/updateProductInCart', Middleware.misc.language, Middleware.parameterValidation.user.updateProductInCart, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
-      if (!user) {return res.status(406).send({ message: status.INVALID_USER_AUTHENTICATION[req.language].message, status: status.INVALID_USER_AUTHENTICATION.code });}
+      if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
       var found = false;
       for (var i = 0; i < user.cart_products.length; i++) {
         if (user.cart_products[i]._id == req.body.cart_product_id) {
@@ -103,7 +103,7 @@ module.exports = function(app) {
         }
       }
       if (!found) {
-        return res.status(406).send({ message: status.PRODUCT_ID_INVALID[req.language].message, status: status.PRODUCT_ID_INVALID.code });
+        return res.status(406).send(help.sendError(req.language, 'PRODUCT_ID_INVALID'));
       }
       user.save(function(err) {
         if (err) {throw err;}
@@ -117,14 +117,14 @@ module.exports = function(app) {
   app.put('/api/user/checkout', Middleware.misc.language, Middleware.parameterValidation.user.checkout, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
-      if (!user) {return res.status(406).send({ message: status.INVALID_USER_AUTHENTICATION[req.language].message, status: status.INVALID_USER_AUTHENTICATION.code });}
+      if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
       var found = false;
       if (user.cart_products.length == 0) {
-        return res.status(406).send({ message: status.NO_PRODUCTS_SELECTED[req.language].message + product.name, status: status.NO_PRODUCTS_SELECTED.code });
+        return res.status(406).send(help.sendError(req.language, 'NO_PRODUCTS_SELECTED'));
       }
       for (var i = 0; i < user.cart_products.length; i++) {
         if (user.cart_products[i].quantity < 1) {
-          return res.status(406).send({ message: status.MINIMUM_QUANTITY_MUST_BE_1[req.language].message, status: status.MINIMUM_QUANTITY_MUST_BE_1.code });
+          return res.status(406).send(help.sendError(req.language, 'MINIMUM_QUANTITY_MUST_BE_1'));
         }
       }
 
