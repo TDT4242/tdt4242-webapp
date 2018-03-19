@@ -1,5 +1,6 @@
 var path = require('path');
 var qs = require('querystring');
+var fs = require('fs');
 
 var async = require('async');
 var bcrypt = require('bcryptjs');
@@ -14,8 +15,7 @@ var express = require('express');
 var helmet = require('helmet');
 var config = require('./config/config.js');
 var Models = require('./models/index.js');
-
-// hello aws asd asd asd asd asd hello
+var status = require('./config/status.js');
 
 var app = express();
 var server = require('http').Server(app);

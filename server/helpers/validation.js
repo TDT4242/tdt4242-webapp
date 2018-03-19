@@ -12,7 +12,7 @@ function password(value, language) {
   return false;
 }
 function person_name(value) {
-  if (typeof value != 'string' || value.trim().length == 0) {
+  if (typeof value != 'string' || value.trim().length == 0 || !validator.isAlpha(value)) {
     return true;
   }
   return false;
