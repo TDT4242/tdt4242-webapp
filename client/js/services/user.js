@@ -17,6 +17,26 @@ angular.module('MasterApp')
             $rootScope.alertMessage = err.data.message;
           }
         });
+      },
+      getPrice: function(quantity, price, deal) {
+        if (!deal) {
+          return roundIt(price * quantity)
+        }
+        if (deal.percentage) {
+          return roundIt(price * quantity * (1 - deal.percentage * 0.01));
+        }
+        if (deal.x && quantity >= deal.x) {
+          var numberOfDeals = Math.floor(quantity/deal.x)
+          var numberOfFreeProducts = quantity - (deal.y * numberOfDeals)
+
+          return roundIt((quantity - numberOfFreeProducts) * price)
+        }
+        return roundIt(price * quantity)
       }
     }
   }]);
+  
+  
+  function roundIt(number) {
+    return Math.floor(number * 100)/100;
+  }

@@ -141,9 +141,12 @@ module.exports = function(app) {
             }
           }
           products.push(product);
-          help.getPrice(cart_product, product.price, function(price) {
-            cart_product.price = price;
-            cb();
+          Models.Deal.findOne({ product: product._id }, function(err, deal) {
+            if (err) {throw err;}
+            help.getPrice(cart_product, product.price, deal, function(price) {
+              cart_product.price = price;
+              cb();
+            });
           });
         });
       }, function(err) {

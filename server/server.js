@@ -16,9 +16,11 @@ var helmet = require('helmet');
 var config = require('./config/config.js');
 var Models = require('./models/index.js');
 var status = require('./config/status.js');
+var help = require('./helpers/help.js');
 
 var app = express();
 var server = require('http').Server(app);
+var JSONfn = require('json-fn');
 
 mongoose.connect(config.DATABASE_URL);
 mongoose.connection.on('error', function(err) {
