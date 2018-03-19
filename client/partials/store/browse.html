@@ -5,30 +5,30 @@
       <div class="panel-heading">Filter products</div>
       <div class="panel-body">
         <label for="searchText" style = "margin-top:10px;">Search text:</label>
-        <input id="searchText" type="text" class="form-control" style = "width:800px;" ng-model = "data.searchText" placeholder="Your search text">
+        <input id="searchText" type="text" class="form-control" style = "width:100%;" ng-model = "data.searchText" placeholder="Your search text">
 
         <label for="upperPriceLimit" style = "margin-top:10px;">Upper price limit:</label>
-        <input id="upperPriceLimit" type="number" class="form-control" style = "width:800px;" ng-model = "data.upperPriceLimit" placeholder="Upper price limit">
+        <input id="upperPriceLimit" type="number" class="form-control" style = "width:100%;" ng-model = "data.upperPriceLimit" placeholder="Upper price limit">
 
         <label for="lowerPriceLimit" style = "margin-top:10px;">Lower price limit:</label>
-        <input id="lowerPriceLimit" type="number" class="form-control" style = "width:800px;" ng-model = "data.lowerPriceLimit" placeholder="Lower price limit">
+        <input id="lowerPriceLimit" type="number" class="form-control" style = "width:100%;" ng-model = "data.lowerPriceLimit" placeholder="Lower price limit">
 
         <label for="brands" style = "margin-top:10px;">Filter by brands:</label>
-        <ui-select id="brands" multiple ng-model="data.filterBrands" theme="bootstrap" ng-disabled="false" sortable="true" close-on-select="false" style="width: 800px;">
+        <ui-select id="brands" multiple ng-model="data.filterBrands" theme="bootstrap" ng-disabled="false" sortable="true" close-on-select="false" style="width:100%;">
           <ui-select-match placeholder="Select brand(s)">{{$item.name}}</ui-select-match>
           <ui-select-choices repeat="brand in data.brands | filter: $select.search">
             <div ng-bind-html="brand.name | highlight: $select.search"></div>
           </ui-select-choices>
         </ui-select>
         <label for="categories" style = "margin-top:10px;">Filter by categories:</label>
-        <ui-select id="categories" multiple ng-model="data.filterCategories" theme="bootstrap" ng-disabled="false" sortable="true" close-on-select="false" style="width: 800px;">
+        <ui-select id="categories" multiple ng-model="data.filterCategories" theme="bootstrap" ng-disabled="false" sortable="true" close-on-select="false" style="width:100%;">
           <ui-select-match placeholder="Select categories(s)">{{$item.name}}</ui-select-match>
           <ui-select-choices repeat="category in data.categories | filter: $select.search">
             <div ng-bind-html="category.name | highlight: $select.search"></div>
           </ui-select-choices>
         </ui-select>
         <label for="materials" style = "margin-top:10px;">Filter by materials:</label>
-        <ui-select id="materials" multiple ng-model="data.filterMaterials" theme="bootstrap" ng-disabled="false" sortable="true" close-on-select="false" style="width: 800px;">
+        <ui-select id="materials" multiple ng-model="data.filterMaterials" theme="bootstrap" ng-disabled="false" sortable="true" close-on-select="false" style="width:100%;">
           <ui-select-match placeholder="Select material(s)">{{$item.name}}</ui-select-match>
           <ui-select-choices repeat="material in data.materials | filter: $select.search">
             <div ng-bind-html="material.name | highlight: $select.search"></div>
