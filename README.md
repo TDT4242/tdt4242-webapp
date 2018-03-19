@@ -5,7 +5,7 @@
 Currently our group is hosting the latest version of this application on AWS, and it can be accesed [here](http://tdttest-dev.eu-west-1.elasticbeanstalk.com/)
 
 ### How to setup  
-If the above link is down (due to the project being finished) then you manually have to follow this set of steps:  
+If the above link is down (due to the project being finished) then you manually have to follow this set of steps:
   	1. Clone this repo
 	2. Make sure you have installed both Node.js and can access this from some terminal.
 	3. Navigate into the root of our project and run "npm install" to install dependencies.
