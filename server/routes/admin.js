@@ -4,7 +4,6 @@ var UserAuth = require('../middleware/authentication/user.js');
 var status = require('../config/status.js');
 var help = require('../helpers/help.js');
 
-
 module.exports = function(app) {
 
   app.post('/api/admin/get', Middleware.misc.language, Middleware.parameterValidation.admin.getUser, UserAuth.ensureAuthenticated, function(req, res) {
@@ -24,18 +23,27 @@ module.exports = function(app) {
               if (err) {throw err;}
               Models.Material.find({}, function(err, materials) {
                 if (err) {throw err;}
-                res.status(200).send({ data: {
-                  products: products,
-                  brands: brands,
-                  categories: categories,
-                  deals: deals,
-                  materials: materials
-                }})
-              })
-            })
-          })
-        })
-      })
+                Models.Order.find({}, function(err, orders) {
+                  if (err) {throw err;}
+                  var user_ids = help.getFieldValues(orders, 'user');
+                  Models.User.find({ _id: { $in: user_ids }}, function(err, users) {
+                    if (err) {throw err;}
+                    res.status(200).send({ data: {
+                      products: products,
+                      orders: orders,
+                      users: users,
+                      brands: brands,
+                      categories: categories,
+                      deals: deals,
+                      materials: materials
+                    }});
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
     });
   });
   app.put('/api/admin/add-product', Middleware.misc.language, Middleware.parameterValidation.admin.addProduct, UserAuth.ensureAuthenticated, function(req, res) {
@@ -131,6 +139,45 @@ module.exports = function(app) {
             return res.status(200).send({ data: {
               products: products
             }});
+          });
+        });
+      });
+    });
+  });
+  app.post('/api/admin/updateOrder', Middleware.misc.language, Middleware.parameterValidation.admin.updateOrder, UserAuth.ensureAuthenticated, function(req, res) {
+    Models.User.findById(req.user, function(err, user) {
+      if (err) {throw err;}
+      if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
+      if (user.permissions.indexOf(1) == -1) {
+        if (!user) {return res.status(406).send(help.sendError(req.language, 'PERMISSION_DENIED'));}
+      }
+      Models.Order.findById(req.body.order_id, function(err, order) {
+        if (err) {throw err;}
+        if (!order) {
+          if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_ORDER_ID'));}
+        }
+        if (order.status == 2) {
+          if (!user) {return res.status(406).send(help.sendError(req.language, 'ORDER_STATUS_2'));}
+        }
+        Models.User.findById(order.user, function(err, orderUser) {
+          if (err) {throw err;}
+          order.status = order.status + 1;
+          order.save(function(err) {
+            if (err) {throw err;}
+            var statusMessage = null;
+            if (order.status == 1) {
+              statusMessage = "Status of your order: "+order._id+", is now Received.";
+            } else {
+              statusMessage = "Status of your order: "+order._id+", is now Shipped from store.";
+            }
+            help.sendEmail(orderUser.email, statusMessage, function() {
+              Models.Order.find({}, function(err, orders) {
+                if (err) {throw err;}
+                return res.status(200).send({ data: {
+                  orders: orders
+                }});
+              });
+            });
           });
         });
       });

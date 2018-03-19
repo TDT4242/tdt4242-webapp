@@ -5,16 +5,51 @@ angular.module('MasterApp')
     $scope.data = {
       products: [],
       deals: [],
+      orders: [],
       brands: [],
       materials: [],
       categories: [],
+      users: [],
+      statuses: [{value:0},{value:1},{value:2}],
       showAddProduct: false,
       showAddDeal: false,
       newProductValidationErrorMessage: null,
       newDealValidationErrorMessage: null
     };
+    
+    $scope.getDateFromIso = function(iso) {
+      var d = new Date(iso);
+      var date = d.getDate(); if (date < 10) {date='0'+date;}
+      var month = d.getMonth()+1; if (month < 10) {month='0'+month;}
+      var year = d.getFullYear(); if (year < 10) {year='0'+year;}
+      
+      var minute = d.getMinutes(); if (minute < 10) {minute='0'+minute;}
+      var hour = d.getHours(); if (hour < 10) {hour='0'+hour;}
 
-
+      return date + '.' + month + '.' + year + ', ' + hour + ':' + minute;
+    }
+    
+    $scope.getStatusDescription = function(status) {
+      if (status == 0) {
+        return 'Received';
+      } else if (status == 1) {
+        return 'In progress';
+      } else if (status == 2) {
+        return 'Order shipped';
+      }
+    }
+    
+    $scope.updateOrder = function(order_id) {
+      Account.updateOrder({
+        order_id: order_id
+      }).then(function(response) {
+        $scope.data.orders = response.data.data.orders;
+      }).catch(function(err) {
+        console.log(err);
+        $scope.showAlert(err.data.message, null);
+      })
+    }
+    
     $scope.editStockQuantity = function(product) {
       Account.editStockQuantity({
         product_id: product._id,
@@ -28,6 +63,15 @@ angular.module('MasterApp')
         console.log(err);
         $scope.showAlert(err.data.message, null);
       })
+    }
+    
+    $scope.getMatchingItem = function(items, id) {
+      for (var i = 0; i < items.length; i++) {
+        if (items[i]._id == id) {
+          return items[i];
+        }
+      }
+      return {};
     }
 
     $scope.showAddProduct = function(show) {
@@ -161,7 +205,6 @@ angular.module('MasterApp')
       for (var i = 0; i < $scope.data.products.length; i++) {
         $scope.data.products[i].new_quantity = JSON.parse(JSON.stringify($scope.data.products[i].stock_quantity));
       }
-      console.log($scope.data);
     }).catch(function(err) {
       console.log(err);
       $scope.showAlert(err.data.message, null);

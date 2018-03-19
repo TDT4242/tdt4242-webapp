@@ -14,6 +14,7 @@
     "helmet": "^3.11.0",
     "http": "0.0.0",
     "jwt-simple": "^0.5.1",
+    "mailgun-js": "^0.16.0",
     "mocha": "^5.0.1",
     "moment": "^2.20.1",
     "mongoose": "^5.0.7",

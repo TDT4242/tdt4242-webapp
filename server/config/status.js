@@ -202,5 +202,17 @@ module.exports = {
       message: 'A deal already exists for this item.',
       code: 2001
     }
+  },
+  INVALID_ORDER_ID: {
+    eng: {
+      message: 'Invalid order id.',
+      code: 2001
+    }
+  },
+  INVALID_ORDER_ID: {
+    eng: {
+      message: 'Status for this order is already 2 and cannot be altered.',
+      code: 2001
+    }
   }
 }

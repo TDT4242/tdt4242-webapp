@@ -64,5 +64,11 @@ module.exports = {
       return res.status(406).send(help.sendError(req.language, 'INVALID_STOCK_QUANTITY'));
     }
     next();
+  },
+  updateOrder: function(req, res, next) {
+    if (typeof req.body.order_id != 'string' || !validator.isMongoId(req.body.order_id)) {
+      return res.status(406).send(help.sendError(req.language, 'INVALID_ORDER_ID'));
+    }
+    next();
   }
 }
