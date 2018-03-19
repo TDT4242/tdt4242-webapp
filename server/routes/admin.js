@@ -5,7 +5,7 @@ var status = require('../config/status.js');
 
 
 module.exports = function(app) {
-  
+
   app.post('/api/admin/get', Middleware.misc.language, Middleware.parameterValidation.admin.getUser, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
@@ -84,25 +84,29 @@ module.exports = function(app) {
       if (user.permissions.indexOf(1) == -1) {
         if (!user) {return res.status(406).send({ message: status.PERMISSION_DENIED[req.language].message, status: status.PERMISSION_DENIED.code });}
       }
-      Models.Product.findById(req.body.product_id, function(err, product) {
+      Models.Deal.findOne({ product: req.body.product_id }, function(err, deal) {
         if (err) {throw err;}
-        if (!product) {return res.status(406).send({ message: status.PRODUCT_ID_INVALID[req.language].message, status: status.PRODUCT_ID_INVALID.code });}
-        var newDeal = new Models.Deal({
-          product: req.body.product_id
-        })
-        if (req.body.type == 1) {
-          newDeal.percentage = req.body.percentage;
-        } else if (req.body.type == 2) {
-          newDeal.x = req.body.x;
-          newDeal.y = req.body.y;
-        }
-        newDeal.save(function(err) {
+        if (deal) {return res.status(406).send({ message: status.DEAL_ALREADY_EXISTS[req.language].message, status: status.DEAL_ALREADY_EXISTS.code });}
+        Models.Product.findById(req.body.product_id, function(err, product) {
           if (err) {throw err;}
-          Models.Deal.find({}, function(err, deals) {
+          if (!product) {return res.status(406).send({ message: status.PRODUCT_ID_INVALID[req.language].message, status: status.PRODUCT_ID_INVALID.code });}
+          var newDeal = new Models.Deal({
+            product: req.body.product_id
+          })
+          if (req.body.type == 1) {
+            newDeal.percentage = req.body.percentage;
+          } else if (req.body.type == 2) {
+            newDeal.x = req.body.x;
+            newDeal.y = req.body.y;
+          }
+          newDeal.save(function(err) {
             if (err) {throw err;}
-            return res.status(200).send({ data: {
-              deals: deals
-            }});
+            Models.Deal.find({}, function(err, deals) {
+              if (err) {throw err;}
+              return res.status(200).send({ data: {
+                deals: deals
+              }});
+            });
           });
         });
       });

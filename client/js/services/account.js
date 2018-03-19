@@ -10,6 +10,15 @@ angular.module('MasterApp')
       addToCart: function(data) {
         return $http.put('/api/user/addToCart', data);
       },
+      deleteProductFromCart: function(data) {
+        return $http.put('/api/user/deleteProductFromCart', data);
+      },
+      updateProductInCart: function(data) {
+        return $http.put('/api/user/updateProductInCart', data);
+      },
+      checkout: function(data) {
+        return $http.put('/api/user/checkout', data);
+      },
       getUser: function(data) {
         return $http.post('/api/user/get', data);
       },
