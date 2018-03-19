@@ -137,4 +137,44 @@
       </div>
     </div>
   </div>
+  <!--Orders placed-->
+  <h3>Deals placed</h3>
+  <table class="table table-striped" ng-if = "data.orders.length > 0">
+  <thead>
+      <tr>
+        <th>Date placed</th>
+        <th>User</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat = "order in data.orders">
+        <td>{{getDateFromIso(order.date_placed)}}</td>
+        <td>
+          {{ getMatchingItem(data.users, order.user).first_name }}
+          {{ getMatchingItem(data.users, order.user).last_name }}
+        </td>
+        <td>{{getStatusDescription(order.status)}}</td>
+        <td>
+          <button 
+            ng-if = "order.status == 0"
+            class = "btn btn-small btn-success pull-right" 
+            type="button" 
+            name="button" 
+            ng-click = "updateOrder(order._id);">
+            Change status to "In progress" and send notification
+          </button>
+          <button 
+            ng-if = "order.status == 1"
+            class = "btn btn-small btn-success pull-right" 
+            type="button" 
+            name="button" 
+            ng-click = "updateOrder(order._id);">
+            Change status to "Sent" and send notification
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

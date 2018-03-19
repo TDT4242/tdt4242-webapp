@@ -33,6 +33,9 @@ angular.module('MasterApp')
       },
       editStockQuantity: function(data) {
         return $http.put('/api/admin/edit-stock-quantity', data);
+      },
+      updateOrder: function(data) {
+        return $http.post('/api/admin/updateOrder', data);
       }
     }
   }]);

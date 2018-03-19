@@ -10,8 +10,11 @@ angular.module('MasterApp')
       var date = d.getDate(); if (date < 10) {date='0'+date;}
       var month = d.getMonth()+1; if (month < 10) {month='0'+month;}
       var year = d.getFullYear(); if (year < 10) {year='0'+year;}
+      
+      var minute = d.getMinutes(); if (minute < 10) {minute='0'+minute;}
+      var hour = d.getHours(); if (hour < 10) {hour='0'+hour;}
 
-      return date + '.' + month + '.' + year;
+      return date + '.' + month + '.' + year + ', ' + hour + ':' + minute;
     }
     $scope.getNumberOfItems = function(order) {
       var counter = 0;
