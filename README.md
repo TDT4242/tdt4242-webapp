@@ -13,11 +13,11 @@ If the above link is down (due to the project being finished) then you manually 
   5. Access the application by going accessing "localhost:3000" in your web browser.
 
 If you would rather run this using Docker then follow this set of steps:
-  1. Clone the repo, but make sure it is an archive
+  1. Clone the repo, archive it as a .tar
   2. Using docker (make sure you have this installed), navigate to the location of the archive.
-  3. Build the image from the archive, i.e. "docker build -t IMAGE - < archive.tar.gz".
-  4. Run the image you built using "docker run -p 3000:3000 IMAGE"
-  5. Access the running instance by getting the ip ("docker inspect CONTAINER-ID") and connecting to this at port 3000.
+  3. Build the image from the archive, i.e. "docker build -t IMAGE - < tdt4242-webapp.tar".
+  4. Run the image you built using "docker run -p 3000:3000 --env production=true IMAGE"
+  5. Access the running instance by getting the ip (" docker inspect CONTAINER_ID | grep '"IPAddress"' | head -n 1") and connecting to this IP at port 3000 in your browser of choice.
 
 ### Requirements
 Following are the two sets of use cases (which were how our requirements were specified) for the two iterations of this project.  
