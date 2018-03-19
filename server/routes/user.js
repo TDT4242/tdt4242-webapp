@@ -81,11 +81,8 @@ module.exports = function(app) {
         return res.status(406).send(help.sendError(req.language, 'PRODUCT_ID_INVALID'));
       }
       user.cart_products.splice(index, 1);
-      console.log(user.cart_products);
       user.save(function(err) {
-        console.log(user.cart_products);
         if (err) {throw err;}
-        console.log(user.cart_products);
         return res.status(200).send({ data: {
           user: user
         }});
@@ -133,7 +130,6 @@ module.exports = function(app) {
       var outOfStockProducts = '';
       var products = [];
       var cart_products = JSON.parse(JSON.stringify(user.cart_products));
-      console.log(1);
       async.forEach(cart_products, function(cart_product, cb) {
         Models.Product.findById(cart_product.product, function(err, product) {
           if (err) {throw err;}
@@ -146,7 +142,6 @@ module.exports = function(app) {
           }
           products.push(product);
           help.getPrice(cart_product, product.price, function(price) {
-            console.log(price);
             cart_product.price = price;
             cb();
           });
