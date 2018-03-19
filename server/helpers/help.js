@@ -3,7 +3,12 @@ var status = require('../config/status.js');
 var Models = require('../models/index.js');
 var api_key = process.env.MAILGUN_API_KEY;
 var domain = 'nibeklaussen.com';
-var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+var mailgun = {};
+try {
+  mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+} catch (e) {
+  
+}
  
 
 function getPrice(product, price, cb) {
