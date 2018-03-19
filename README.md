@@ -7,7 +7,7 @@ Currently our group is hosting the latest version of this application on AWS, an
 ### How to setup
 If the above link is down (due to the project being finished) then you manually have to follow this set of steps:
   1. Clone this repo
-  2. Make sure you have installed both Node.js and can access this from some terminal.
+  2. Make sure you have installed Node.js and can access this from some terminal (both "npm" and "node").
   3. Navigate into the root of our project and run "npm install" to install dependencies.
   4. Navigate into "/server" and run "node server.js" to start the server.
   5. Access the application by going accessing "localhost:3000" in your web browser.
