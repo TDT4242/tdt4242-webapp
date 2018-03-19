@@ -26,6 +26,7 @@ function getPrice(product, price, cb) {
 
       return cb((product.quantity - numberOfFreeProducts) * price)
     }
+    return cb(price * product.quantity)
   })
 }
 
@@ -37,7 +38,7 @@ function sendError(language, key) {
 function sendEmail(email, message, cb) {
   var data = {
     from: 'Super Sander <store@nibeklaussen.com>',
-    to: 'steinaagee@gmail.com',
+    to: email,
     subject: 'Order update!',
     text: message
   };

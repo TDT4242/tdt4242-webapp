@@ -10,7 +10,7 @@ var schema = new Schema({
   permissions: { type: [Number], default: [0] },
   cart_products: [{
     product: { type: Schema.Types.ObjectId, ref: 'Product' },
-    quantity: { type: Number, required: true }
+    quantity: { type: Number }
   }]
 });
 

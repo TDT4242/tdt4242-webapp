@@ -17,6 +17,8 @@ WORKDIR /src
 ADD . /src
 
 # Install dependencies
+RUN pwd
+RUN ls
 RUN cd server && npm install
 
 # navigate to a new working directory

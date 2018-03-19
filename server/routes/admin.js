@@ -13,6 +13,7 @@ module.exports = function(app) {
       if (user.permissions.indexOf(1) == -1) {
         if (!user) {return res.status(406).send(help.sendError(req.language, 'PERMISSION_DENIED'));}
       }
+      
       Models.Product.find({}, function(err, products) {
         if (err) {throw err;}
         Models.Brand.find({}, function(err, brands) {
