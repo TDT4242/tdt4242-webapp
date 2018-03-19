@@ -2,6 +2,7 @@ var Models = require('../models/index.js');
 var Middleware = require('../middleware/index.js');
 var UserAuth = require('../middleware/authentication/user.js');
 var status = require('../config/status.js');
+var help = require('../helpers/help.js');
 
 
 module.exports = function(app) {
@@ -9,9 +10,9 @@ module.exports = function(app) {
   app.post('/api/admin/get', Middleware.misc.language, Middleware.parameterValidation.admin.getUser, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
-      if (!user) {return res.status(406).send({ message: status.INVALID_USER_AUTHENTICATION[req.language].message, status: status.INVALID_USER_AUTHENTICATION.code });}
+      if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
       if (user.permissions.indexOf(1) == -1) {
-        if (!user) {return res.status(406).send({ message: status.PERMISSION_DENIED[req.language].message, status: status.PERMISSION_DENIED.code });}
+        if (!user) {return res.status(406).send(help.sendError(req.language, 'PERMISSION_DENIED'));}
       }
       Models.Product.find({}, function(err, products) {
         if (err) {throw err;}
@@ -40,19 +41,19 @@ module.exports = function(app) {
   app.put('/api/admin/add-product', Middleware.misc.language, Middleware.parameterValidation.admin.addProduct, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
-      if (!user) {return res.status(406).send({ message: status.INVALID_USER_AUTHENTICATION[req.language].message, status: status.INVALID_USER_AUTHENTICATION.code });}
+      if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
       if (user.permissions.indexOf(1) == -1) {
-        if (!user) {return res.status(406).send({ message: status.PERMISSION_DENIED[req.language].message, status: status.PERMISSION_DENIED.code });}
+        if (!user) {return res.status(406).send(help.sendError(req.language, 'PERMISSION_DENIED'));}
       }
       Models.Brand.findById(req.body.brand_id, function(err, brand) {
         if (err) {throw err;}
-        if (!brand) {return res.status(406).send({ message: status.INVALID_BRAND_ID[req.language].message, status: status.INVALID_BRAND_ID.code });}
+        if (!brand) {return res.status(406).send(help.sendError(req.language, 'INVALID_BRAND_ID'));}
         Models.Category.findById(req.body.category_id, function(err, category) {
           if (err) {throw err;}
-          if (!category) {return res.status(406).send({ message: status.INVALID_CATEGORY_ID[req.language].message, status: status.INVALID_CATEGORY_ID.code });}
+          if (!category) {return res.status(406).send(help.sendError(req.language, 'INVALID_CATEGORY_ID'));}
           Models.Material.findById(req.body.material_id, function(err, material) {
             if (err) {throw err;}
-            if (!material) {return res.status(406).send({ message: status.INVALID_MATERIAL_ID[req.language].message, status: status.INVALID_MATERIAL_ID.code });}
+            if (!material) {return res.status(406).send(help.sendError(req.language, 'INVALID_MATERIAL_ID'));}
 
             var newProduct = new Models.Product({
               name: req.body.name,
@@ -80,16 +81,16 @@ module.exports = function(app) {
   app.put('/api/admin/add-deal', Middleware.misc.language, Middleware.parameterValidation.admin.addDeal, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
-      if (!user) {return res.status(406).send({ message: status.INVALID_USER_AUTHENTICATION[req.language].message, status: status.INVALID_USER_AUTHENTICATION.code });}
+      if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
       if (user.permissions.indexOf(1) == -1) {
-        if (!user) {return res.status(406).send({ message: status.PERMISSION_DENIED[req.language].message, status: status.PERMISSION_DENIED.code });}
+        if (!user) {return res.status(406).send(help.sendError(req.language, 'PERMISSION_DENIED'));}
       }
       Models.Deal.findOne({ product: req.body.product_id }, function(err, deal) {
         if (err) {throw err;}
-        if (deal) {return res.status(406).send({ message: status.DEAL_ALREADY_EXISTS[req.language].message, status: status.DEAL_ALREADY_EXISTS.code });}
+        if (deal) {return res.status(406).send(help.sendError(req.language, 'DEAL_ALREADY_EXISTS'));}
         Models.Product.findById(req.body.product_id, function(err, product) {
           if (err) {throw err;}
-          if (!product) {return res.status(406).send({ message: status.PRODUCT_ID_INVALID[req.language].message, status: status.PRODUCT_ID_INVALID.code });}
+          if (!product) {return res.status(406).send(help.sendError(req.language, 'PRODUCT_ID_INVALID'));}
           var newDeal = new Models.Deal({
             product: req.body.product_id
           })
@@ -115,13 +116,13 @@ module.exports = function(app) {
   app.put('/api/admin/edit-stock-quantity', Middleware.misc.language, Middleware.parameterValidation.admin.editStockQuantity, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
-      if (!user) {return res.status(406).send({ message: status.INVALID_USER_AUTHENTICATION[req.language].message, status: status.INVALID_USER_AUTHENTICATION.code });}
+      if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
       if (user.permissions.indexOf(1) == -1) {
-        if (!user) {return res.status(406).send({ message: status.PERMISSION_DENIED[req.language].message, status: status.PERMISSION_DENIED.code });}
+        if (!user) {return res.status(406).send(help.sendError(req.language, 'PERMISSION_DENIED'));}
       }
       Models.Product.findById(req.body.product_id, function(err, product) {
         if (err) {throw err;}
-        if (!product) {return res.status(406).send({ message: status.PRODUCT_ID_INVALID[req.language].message, status: status.PRODUCT_ID_INVALID.code });}
+        if (!product) {return res.status(406).send(help.sendError(req.language, 'PRODUCT_ID_INVALID'));}
         product.stock_quantity = req.body.stock_quantity;
         product.save(function(err) {
           if (err) {throw err;}

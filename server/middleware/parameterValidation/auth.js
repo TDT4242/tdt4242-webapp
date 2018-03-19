@@ -1,6 +1,7 @@
 var validator = require('validator');
 var validationHelper = require('../../helpers/validation.js');
 var status = require('../../config/status.js');
+var help = require('../../helpers/help.js');
 
 module.exports = {
   signup: function(req, res, next) {
@@ -10,15 +11,15 @@ module.exports = {
     var invalidEmail = validationHelper.email(req.body.email, req.language);
 
     if (invalidFirstName) {
-      return res.status(406).send({ message: status.FIRST_NAME_INVALID[req.language].message, status: status.FIRST_NAME_INVALID.code });
+      return res.status(406).send(help.sendError(req.language, 'FIRST_NAME_INVALID'));
     }
     if (invalidLastName) {
-      return res.status(406).send({ message: status.LAST_NAME_INVALID[req.language].message, status: status.LAST_NAME_INVALID.code });
+      return res.status(406).send(help.sendError(req.language, 'LAST_NAME_INVALID'));
     }
     if (invalidEmail) {return res.status(406).send(invalidEmail);}
     if (invalidPassword) {return res.status(406).send(invalidPassword);}
     if (req.body.password !== req.body.password_again) {
-      return res.status(406).send({ message: status.PASSWORDS_DO_NOT_MATCH[req.language].message, status: status.PASSWORDS_DO_NOT_MATCH.code });
+      return res.status(406).send(help.sendError(req.language, 'PASSWORDS_DO_NOT_MATCH'));
     }
 
 

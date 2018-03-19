@@ -16,7 +16,7 @@ module.exports = {
       token_alt_1 = req.params.authorization;
     }
     if (!token_alt_0 && !token_alt_1) {
-      return res.status(401).send({ message: status.USER_NOT_FOUND[req.language].message, status: status.USER_NOT_FOUND.code });
+      return res.status(401).send(help.sendError(req.language, 'USER_NOT_FOUND'));
     }
 
     var token = token_alt_0 || token_alt_1;
@@ -28,11 +28,11 @@ module.exports = {
     }
     catch (err) {
       console.log(err);
-      return res.status(401).send({ message: status.USER_NOT_FOUND[req.language].message, status: status.USER_NOT_FOUND.code });
+      return res.status(401).send(help.sendError(req.language, 'USER_NOT_FOUND'));
     }
 
     if (payload.exp <= moment().unix()) {
-      return res.status(401).send({ message: status.USER_NOT_FOUND[req.language].message, status: status.USER_NOT_FOUND.code });
+      return res.status(401).send(help.sendError(req.language, 'USER_NOT_FOUND'));
     }
     req.user = payload.sub;
     next();

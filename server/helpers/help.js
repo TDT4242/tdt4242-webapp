@@ -3,10 +3,8 @@ var status = require('../config/status.js');
 var Models = require('../models/index.js');
 
 function getPrice(product, price, cb) {
-  console.log(product);
   Models.Deal.findOne({ product: product.product }, function(err, deal) {
     if (err) {throw err;}
-    console.log(deal);
     if (!deal) {
       return cb(price * product.quantity)
     }
@@ -22,6 +20,14 @@ function getPrice(product, price, cb) {
   })
 }
 
+function sendError(language, key) {
+  console.log(status[key]);
+  var sendIt = { message: status[key][language].message, status: status[key][language].code };
+  console.log(sendIt);
+  return sendIt;
+}
+
 module.exports = {
-  getPrice: getPrice
+  getPrice: getPrice,
+  sendError: sendError
 }
