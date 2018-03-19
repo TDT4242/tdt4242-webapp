@@ -75,8 +75,11 @@ angular.module('MasterApp')
       }).then(function(response) {
         console.log(response);
         $scope.data.products = response.data.data.products;
+        if (response.data.data.status == 2036) {
+          alert(response.data.data.message);
+        }
       }).catch(function(err) {
-        $scope.showAlert(err.data.message, null);
+        $scope.showAlert(err.data.message, null);  
       });
     }
 
