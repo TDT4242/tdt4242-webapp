@@ -25,10 +25,35 @@ mongoose.connection.on('error', function(err) {
   console.log('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
 });
 
-Models.Brand.findById('5a9c08c384b799ede7b44219', function(err, brand) {
-  console.log(brand);
-})
+function clearOrders() {
+  Models.Order.find({}, function(err, orders) {
+    async.forEach(orders, function(order, cb) {
+      console.log(err);
+      order.remove(function(err) {
+        console.log(err);
+      })
+    }, function(err) {
+      console.log(err);
+    })
+  })
+}
 
+
+function clearDeals() {
+  Models.Deal.find({}, function(err, orders) {
+    async.forEach(orders, function(order, cb) {
+      console.log(err);
+      order.remove(function(err) {
+        console.log(err);
+      })
+    }, function(err) {
+      console.log(err);
+    })
+  })
+}
+
+//clearOrders();
+//clearDeals();
 
 app.get('/serverIsUp', function(req, res) {
   console.log('got request');
