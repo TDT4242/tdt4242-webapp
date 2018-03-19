@@ -58,6 +58,12 @@ module.exports = function(app) {
 
     var filterOptionsSelected = req.body.brands.length != 0 || req.body.categories.length != 0 || req.body.materials.length != 0 || req.body.priceLimitQuery;
     var searchTextEntered = req.body.searchText !== null;
+    var status = null;
+    var message = null;
+    if (!filterOptionsSelected && !searchTextEntered) {
+      status = help.sendError(req.language,  'NO_FILTERING_SELECTED').status;
+      message = help.sendError(req.language,  'NO_FILTERING_SELECTED').message;
+    }
     if (filterOptionsSelected || searchTextEntered) {
       searchQuery["$and"] = [];
     }
@@ -114,7 +120,9 @@ module.exports = function(app) {
                   brands: brands,
                   categories: categories,
                   materials: materials,
-                  deals: deals
+                  deals: deals,
+                  status: status,
+                  message: message
                 }});
               });
             });
@@ -122,9 +130,5 @@ module.exports = function(app) {
         });
       });
     });
-  });
-
-  app.put('/api/store/signup', Middleware.misc.language, Middleware.parameterValidation.auth.signup, function(req, res) {
-
   });
 }

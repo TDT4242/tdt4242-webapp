@@ -214,5 +214,11 @@ module.exports = {
       message: 'Status for this order is already 2 and cannot be altered.',
       code: 2035
     }
+  },
+  NO_FILTERING_SELECTED: {
+    eng: {
+      message: 'No filtering values were selected, please add either search text or modify the other filter parameters to alter the search results.',
+      code: 2036
+    }
   }
 }
