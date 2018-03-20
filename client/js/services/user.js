@@ -8,6 +8,8 @@ angular.module('MasterApp')
           $rootScope.user = response.data.data.user;
           $rootScope.products = response.data.data.products;
           $rootScope.orders = response.data.data.orders;
+          $rootScope.deals = response.data.data.deals;
+
           for (var i = 0; i < $rootScope.user.cart_products.length; i++) {
             $rootScope.user.cart_products[i].newQuantity = JSON.parse(JSON.stringify($rootScope.user.cart_products[i].quantity));
           }

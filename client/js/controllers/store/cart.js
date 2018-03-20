@@ -16,6 +16,56 @@ angular.module('MasterApp')
 
       return date + '.' + month + '.' + year + ', ' + hour + ':' + minute;
     }
+    
+    $scope.getCartCount = function() {
+      if ($rootScope.user) {
+        var totalCount = 0;
+        for (var i = 0; i < $rootScope.user.cart_products.length; i++) {
+          totalCount += $rootScope.user.cart_products[i].quantity;
+        }
+        return totalCount;
+      } else {
+        return null;
+      }
+    }
+    
+    $scope.getCartCost = function() {
+      if ($rootScope.user) {
+        var totalCost = 0;
+        for (var i = 0; i < $rootScope.user.cart_products.length; i++) {
+          var deal = $scope.getProductDeal($rootScope.user.cart_products[i].product);
+          var product = $scope.getProduct($rootScope.user.cart_products[i]);
+          totalCost += User.getPrice($rootScope.user.cart_products[i].quantity, product.price, deal);
+        }
+        return totalCost;
+      } else {
+        return null;
+      }
+    }
+    
+    $scope.getProductPrice = function(cartProduct) {
+      if ($rootScope.user) {
+        var deal = $scope.getProductDeal(cartProduct.product);
+        var product = $scope.getProduct(cartProduct);
+        return User.getPrice(cartProduct.quantity, product.price, deal)
+      } else {
+        return null;
+      }
+    }
+    
+    $scope.getProductDeal = function(product_id) {
+      if ($rootScope.user) {
+        for (var i = 0; i < $rootScope.deals.length; i++) {
+          if ($rootScope.deals[i].product == product_id) {
+            return $rootScope.deals[i];
+          }
+        }
+        return null;
+      } else {
+        return null;
+      }
+    }
+    
     $scope.getNumberOfItems = function(order) {
       var counter = 0;
       for (var i = 0; i < order.products.length; i++) {
@@ -23,6 +73,7 @@ angular.module('MasterApp')
       }
       return counter;
     }
+    
     $scope.getOrderCost = function(products) {
       var cost = 0;
       for (var i = 0; i < products.length; i++) {
@@ -30,6 +81,7 @@ angular.module('MasterApp')
       }
       return cost;
     }
+    
     $scope.getStatusDescription = function(status) {
       if (status == 0) {
         return 'Received';
@@ -39,6 +91,7 @@ angular.module('MasterApp')
         return 'Order shipped';
       }
     }
+    
     $scope.deleteProductFromCart = function(id) {
       Account.deleteProductFromCart({
         cart_product_id: id

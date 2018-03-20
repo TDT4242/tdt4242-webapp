@@ -24,13 +24,17 @@ module.exports = function(app) {
         }
         Models.Product.find({ _id: { $in: product_ids }}, function(err, products) {
           if (err) {throw err;}
-          user.save(function(err) {
+          Models.Deal.find({ product: { $in: product_ids }}, function(err, deals) {
             if (err) {throw err;}
-            return res.status(200).send({ data: {
-              user: user,
-              products: products,
-              orders: orders
-            }});
+            user.save(function(err) {
+              if (err) {throw err;}
+              return res.status(200).send({ data: {
+                user: user,
+                products: products,
+                orders: orders,
+                deals: deals
+              }});
+            });
           });
         });
       });
