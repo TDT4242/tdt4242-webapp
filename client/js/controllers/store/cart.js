@@ -1,6 +1,6 @@
 angular.module('MasterApp')
-  .controller('CartCtrl',['$scope', '$state', '$rootScope', '$localStorage', 'User', 'Account',
-  function($scope, $state, $rootScope, $localStorage, User, Account) {
+  .controller('CartCtrl',['$scope', '$state', '$rootScope', '$localStorage', 'User', 'Account', 'User',
+  function($scope, $state, $rootScope, $localStorage, User, Account, User) {
     console.log('CartCtrl');
 
     User.updateUser();
@@ -100,7 +100,7 @@ angular.module('MasterApp')
         User.updateUser();
       }).catch(function(err) {
         console.log(err);
-        $scope.showAlert(err.data.message, null);
+        User.showAlert(err.data.message, null);
       });
     }
 
@@ -113,7 +113,7 @@ angular.module('MasterApp')
         User.updateUser();
       }).catch(function(err) {
         console.log(err);
-        $scope.showAlert(err.data.message, null);
+        User.showAlert(err.data.message, null);
       });
     }
 
@@ -122,7 +122,7 @@ angular.module('MasterApp')
         User.updateUser();
       }).catch(function(err) {
         console.log(err);
-        $scope.showAlert(err.data.message, null);
+        User.showAlert(err.data.message, null);
       });
     }
 
@@ -145,28 +145,6 @@ angular.module('MasterApp')
         if ($rootScope.products[i]._id == cartProduct.product) {
           return $rootScope.products[i];
         }
-      }
-    }
-    $scope.showAlert = function(message, cb) {
-      $rootScope.alertMessage = message;
-      $rootScope.successMessage = null;
-      $rootScope.alertCb = cb;
-    }
-    $scope.hideAlert = function() {
-      $rootScope.alertMessage = null;
-      if ($rootScope.alertCb) {
-        $rootScope.alertCb();
-      }
-    }
-    $scope.showSuccess = function(message, cb) {
-      $rootScope.successMessage = message;
-      $rootScope.alertMessage = null;
-      $rootScope.successCb = cb;
-    }
-    $scope.hideSuccess = function() {
-      $rootScope.successMessage = null;
-      if ($rootScope.successCb) {
-        $rootScope.successCb();
       }
     }
   }]);

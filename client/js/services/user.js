@@ -34,6 +34,28 @@ angular.module('MasterApp')
           return roundIt((quantity - numberOfFreeProducts) * price)
         }
         return roundIt(price * quantity)
+      },
+      showSuccess: function(message, cb) {
+        $rootScope.successMessage = message;
+        $rootScope.alertMessage = null;
+        $rootScope.successCb = cb;
+      },
+      hideSuccess: function() {
+        $rootScope.successMessage = null;
+        if ($rootScope.successCb) {
+          $rootScope.successCb();
+        }
+      },
+      showAlert: function(message, cb) {
+        $rootScope.alertMessage = message;
+        $rootScope.successMessage = null;
+        $rootScope.alertCb = cb;
+      },
+      hideAlert: function() {
+        $rootScope.alertMessage = null;
+        if ($rootScope.alertCb) {
+          $rootScope.alertCb();
+        }
       }
     }
   }]);

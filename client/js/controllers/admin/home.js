@@ -1,6 +1,6 @@
 angular.module('MasterApp')
-  .controller('AdminHomeCtrl',['$scope', '$state', '$rootScope', '$localStorage', '$auth', '$http', 'Account',
-  function($scope, $state, $rootScope, $localStorage, $auth, $http, Account) {
+  .controller('AdminHomeCtrl',['$scope', '$state', '$rootScope', '$localStorage', '$auth', '$http', 'Account', 'User',
+  function($scope, $state, $rootScope, $localStorage, $auth, $http, Account, User) {
     console.log('AdminHomeCtrl');
     $scope.data = {
       products: [],
@@ -46,7 +46,7 @@ angular.module('MasterApp')
         $scope.data.orders = response.data.data.orders;
       }).catch(function(err) {
         console.log(err);
-        $scope.showAlert(err.data.message, null);
+        User.showAlert(err.data.message, null);
       })
     }
     
@@ -61,7 +61,7 @@ angular.module('MasterApp')
         }
       }).catch(function(err) {
         console.log(err);
-        $scope.showAlert(err.data.message, null);
+        User.showAlert(err.data.message, null);
       })
     }
     
@@ -117,7 +117,7 @@ angular.module('MasterApp')
           $scope.data.newProductMaterial = null;
         }).catch(function(err) {
           console.log(err);
-          $scope.showAlert(err.data.message, null);
+          User.showAlert(err.data.message, null);
         })
       }
     }
@@ -140,7 +140,7 @@ angular.module('MasterApp')
           $scope.data.y = null;
         }).catch(function(err) {
           console.log(err);
-          $scope.showAlert(err.data.message, null);
+          User.showAlert(err.data.message, null);
         })
       }
     }
@@ -207,7 +207,7 @@ angular.module('MasterApp')
       }
     }).catch(function(err) {
       console.log(err);
-      $scope.showAlert(err.data.message, null);
+      User.showAlert(err.data.message, null);
     })
 
     $scope.getItemById = function(items, id) {
@@ -250,29 +250,4 @@ angular.module('MasterApp')
         $scope.data.newDealValidationErrorMessage = null;
       }
     }
-
-
-    $scope.showAlert = function(message, cb) {
-      $rootScope.alertMessage = message;
-      $rootScope.successMessage = null;
-      $rootScope.alertCb = cb;
-    }
-    $scope.hideAlert = function() {
-      $rootScope.alertMessage = null;
-      if ($rootScope.alertCb) {
-        $rootScope.alertCb();
-      }
-    }
-    $scope.showSuccess = function(message, cb) {
-      $rootScope.successMessage = message;
-      $rootScope.alertMessage = null;
-      $rootScope.successCb = cb;
-    }
-    $scope.hideSuccess = function() {
-      $rootScope.successMessage = null;
-      if ($rootScope.successCb) {
-        $rootScope.successCb();
-      }
-    }
-
   }]);

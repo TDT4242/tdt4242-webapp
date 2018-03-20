@@ -1,6 +1,6 @@
 angular.module('MasterApp')
-  .controller('SignupCtrl',['$scope', '$state', '$rootScope', '$localStorage', '$auth', '$http',
-  function($scope, $state, $rootScope, $localStorage, $auth, $http) {
+  .controller('SignupCtrl',['$scope', '$state', '$rootScope', '$localStorage', '$auth', '$http', 'User',
+  function($scope, $state, $rootScope, $localStorage, $auth, $http, User) {
     console.log('SignupCtrl');
     
     $scope.login = function() {
@@ -14,33 +14,10 @@ angular.module('MasterApp')
         console.log(response);
         $auth.setToken(response.data.token);
         $state.go('master.browse');
-        $scope.hideAlert();
+        User.hideAlert();
       }).catch(function(err) {
         console.log(err);
-        $scope.showAlert(err.data.message, null);
+        User.showAlert(err.data.message, null);
       });
-    }
-    
-    $scope.showAlert = function(message, cb) {
-      $rootScope.alertMessage = message;
-      $rootScope.successMessage = null;
-      $rootScope.alertCb = cb;
-    }
-    $scope.hideAlert = function() {
-      $rootScope.alertMessage = null;
-      if ($rootScope.alertCb) {
-        $rootScope.alertCb();
-      }
-    }
-    $scope.showSuccess = function(message, cb) {
-      $rootScope.successMessage = message;
-      $rootScope.alertMessage = null;
-      $rootScope.successCb = cb;
-    }
-    $scope.hideSuccess = function() {
-      $rootScope.successMessage = null;
-      if ($rootScope.successCb) {
-        $rootScope.successCb();
-      }
     }
   }]);
