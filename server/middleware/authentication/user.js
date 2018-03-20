@@ -27,7 +27,6 @@ module.exports = {
       payload = jwt.decode(token, config.TOKEN_SECRET);
     }
     catch (err) {
-      console.log(err);
       return res.status(401).send(help.sendError(req.language, 'USER_NOT_FOUND'));
     }
 

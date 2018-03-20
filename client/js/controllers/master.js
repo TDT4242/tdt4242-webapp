@@ -1,7 +1,6 @@
 angular.module('MasterApp')
   .controller('MasterCtrl',['$scope', '$state', '$rootScope', '$localStorage', '$auth', 'Account', 'User',
   function($scope, $state, $rootScope, $localStorage, $auth, Account, User) {
-    console.log('MasterCtrl');
     $scope.data = {
       sidebarCollapsed: false
     }

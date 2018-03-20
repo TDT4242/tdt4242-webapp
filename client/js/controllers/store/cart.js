@@ -1,7 +1,6 @@
 angular.module('MasterApp')
   .controller('CartCtrl',['$scope', '$state', '$rootScope', '$localStorage', 'User', 'Account', 'User',
   function($scope, $state, $rootScope, $localStorage, User, Account, User) {
-    console.log('CartCtrl');
 
     User.updateUser();
 
@@ -96,10 +95,8 @@ angular.module('MasterApp')
       Account.deleteProductFromCart({
         cart_product_id: id
       }).then(function(response) {
-        console.log(response);
         User.updateUser();
       }).catch(function(err) {
-        console.log(err);
         User.showAlert(err.data.message, null);
       });
     }
@@ -109,10 +106,8 @@ angular.module('MasterApp')
         cart_product_id: id,
         quantity: quantity
       }).then(function(response) {
-        console.log(response);
         User.updateUser();
       }).catch(function(err) {
-        console.log(err);
         User.showAlert(err.data.message, null);
       });
     }
@@ -121,7 +116,6 @@ angular.module('MasterApp')
       Account.checkout({}).then(function(response) {
         User.updateUser();
       }).catch(function(err) {
-        console.log(err);
         User.showAlert(err.data.message, null);
       });
     }
