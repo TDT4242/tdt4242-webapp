@@ -1,7 +1,6 @@
 angular.module('MasterApp')
   .controller('LoginCtrl',['$scope', '$state', '$rootScope', '$localStorage', '$auth', '$http', 'User',
   function($scope, $state, $rootScope, $localStorage, $auth, $http, User) {
-    console.log('LoginCtrl');
     $scope.data = {
       email: '',
       password: ''
@@ -12,12 +11,10 @@ angular.module('MasterApp')
         email: $scope.data.email,
         password: $scope.data.password
       }).then(function(response) {
-        console.log(response);
         $auth.setToken(response.data.token);
         $state.go('master.browse');
         User.hideAlert();
       }).catch(function(err) {
-        console.log(err);
         User.showAlert(err.data.message, null);
       });
     }

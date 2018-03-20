@@ -15,7 +15,6 @@ angular.module('MasterApp')
             $rootScope.user.cart_products[i].newQuantity = JSON.parse(JSON.stringify($rootScope.user.cart_products[i].quantity));
           }
         }).catch(function(err) {
-          console.log(err);
           if ($auth.isAuthenticated()) {
             $rootScope.alertMessage = err.data.message;
           }
@@ -45,7 +44,6 @@ angular.module('MasterApp')
         var dateSet = Date.now();
         $rootScope.successMessageDate = dateSet;
         $timeout(function() {
-          console.log('in here', dateSet, $rootScope.successMessageDate)
           if ($rootScope.successMessageDate == dateSet) {
             $rootScope.successMessage = null;
           }
@@ -66,9 +64,7 @@ angular.module('MasterApp')
         var dateSet = Date.now();
         $rootScope.alertMessageDate = dateSet;
         $timeout(function() {
-          console.log('in here', dateSet, $rootScope.alertMessageDate)
           if ($rootScope.alertMessageDate == dateSet) {
-            console.log('yes')
             $rootScope.alertMessage = null;
           }
         }, alertMessageTimeout);

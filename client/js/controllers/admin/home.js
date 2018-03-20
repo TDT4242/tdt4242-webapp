@@ -1,7 +1,6 @@
 angular.module('MasterApp')
   .controller('AdminHomeCtrl',['$scope', '$state', '$rootScope', '$localStorage', '$auth', '$http', 'Account', 'User',
   function($scope, $state, $rootScope, $localStorage, $auth, $http, Account, User) {
-    console.log('AdminHomeCtrl');
     $scope.data = {
       products: [],
       deals: [],
@@ -45,7 +44,6 @@ angular.module('MasterApp')
       }).then(function(response) {
         $scope.data.orders = response.data.data.orders;
       }).catch(function(err) {
-        console.log(err);
         User.showAlert(err.data.message, null);
       })
     }
@@ -60,7 +58,6 @@ angular.module('MasterApp')
           $scope.data.products[i].new_quantity = JSON.parse(JSON.stringify($scope.data.products[i].stock_quantity));
         }
       }).catch(function(err) {
-        console.log(err);
         User.showAlert(err.data.message, null);
       })
     }
@@ -93,7 +90,6 @@ angular.module('MasterApp')
 
     $scope.addNewProduct = function() {
       if ($scope.validateNewProduct()) {
-        console.log('adding new product');
 
         Account.addNewProduct({
           name: $scope.data.newProductName,
@@ -116,7 +112,6 @@ angular.module('MasterApp')
           $scope.data.newProductCategory = null;
           $scope.data.newProductMaterial = null;
         }).catch(function(err) {
-          console.log(err);
           User.showAlert(err.data.message, null);
         })
       }
@@ -124,7 +119,6 @@ angular.module('MasterApp')
 
     $scope.addNewDeal = function() {
       if ($scope.validateNewDeal()) {
-        console.log('adding new deal');
         Account.addNewDeal({
           product_id: $scope.data.newDealProduct._id,
           type: $scope.data.newDealType,
@@ -139,7 +133,6 @@ angular.module('MasterApp')
           $scope.data.x = null;
           $scope.data.y = null;
         }).catch(function(err) {
-          console.log(err);
           User.showAlert(err.data.message, null);
         })
       }
@@ -206,7 +199,6 @@ angular.module('MasterApp')
         $scope.data.products[i].new_quantity = JSON.parse(JSON.stringify($scope.data.products[i].stock_quantity));
       }
     }).catch(function(err) {
-      console.log(err);
       User.showAlert(err.data.message, null);
     })
 

@@ -1,7 +1,6 @@
 angular.module('MasterApp')
   .controller('BrowseCtrl',['$scope', '$state', '$rootScope', '$localStorage', 'Account', '$sce', 'User',
   function($scope, $state, $rootScope, $localStorage, Account, $sce, User) {
-    console.log('BrowseCtrl');
     $scope.data = {
       products: [],
       brands: [],
@@ -72,7 +71,6 @@ angular.module('MasterApp')
       if ($scope.data.priceFilter) {
         priceFilter = $scope.data.priceFilter.type;
       }
-      console.log(priceFilter);
       Account.searchProducts({
         searchText: $scope.data.searchText,
         upperPriceLimit: $scope.data.upperPriceLimit,
@@ -82,7 +80,6 @@ angular.module('MasterApp')
         categories: $scope.getIdsForItems($scope.data.filterCategories),
         materials: $scope.getIdsForItems($scope.data.filterMaterials)
       }).then(function(response) {
-        console.log(response);
         $scope.data.products = response.data.data.products;
         if (response.data.data.status == 2036) {
           alert(response.data.data.message);
@@ -97,13 +94,11 @@ angular.module('MasterApp')
         product_id: product._id,
         quantity: 1
       }).then(function(response) {
-        console.log(response);
         $rootScope.user = response.data.data.user;
         $scope.data.cart = response.data.data.cart;
         User.updateUser();
         User.showSuccess("Item was added to your cart!", null);
       }).catch(function(err) {
-        console.log(err);
         User.showAlert(err.data.message, null);
       });
     }
@@ -114,7 +109,6 @@ angular.module('MasterApp')
       categories: $scope.getIdsForItems($scope.data.filterCategories),
       materials: $scope.getIdsForItems($scope.data.filterMaterials)
     }).then(function(response) {
-      console.log(response);
       $scope.data.products = response.data.data.products;
       $scope.data.brands = response.data.data.brands;
       $scope.data.categories = response.data.data.categories;
@@ -122,7 +116,6 @@ angular.module('MasterApp')
       $scope.data.deals = response.data.data.deals;
 
     }).catch(function(err) {
-      console.log(err);
       User.showAlert(err.data.message, null);
     });
 

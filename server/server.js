@@ -30,7 +30,6 @@ mongoose.connection.on('error', function(err) {
 function clearOrders() {
   Models.Order.find({}, function(err, orders) {
     async.forEach(orders, function(order, cb) {
-      console.log(err);
       order.remove(function(err) {
         console.log(err);
       })
@@ -44,7 +43,6 @@ function clearOrders() {
 function clearDeals() {
   Models.Deal.find({}, function(err, orders) {
     async.forEach(orders, function(order, cb) {
-      console.log(err);
       order.remove(function(err) {
         console.log(err);
       })
@@ -58,7 +56,6 @@ function clearDeals() {
 //clearDeals();
 
 app.get('/serverIsUp', function(req, res) {
-  console.log('got request');
   return res.status(200).send();
 })
 
@@ -93,7 +90,6 @@ app.get('/*', function(req, res) {
 
 
 server.listen(app.get('port'), function() {
-  console.log('app listening on port: ' + app.get('port'));
   if (process.env.production !== 'true') {
     process.exit(0);
   }
@@ -102,7 +98,6 @@ server.listen(app.get('port'), function() {
 const io = require('socket.io')(server);
 io.on('connection', (socketServer) => {
   socketServer.on('npmStop', () => {
-    console.log('received the stop');
     process.exit(0);
   });
 });
@@ -200,7 +195,6 @@ function init() {
                         console.log(err);
                         newProduct3.save(function(err) {
                           console.log(err);
-                          console.log('saved');
                         })
                       })
                     })
@@ -228,7 +222,6 @@ function clear() {
             console.log(err);
             Models.User.remove({}, function(err) {
               console.log(err);
-              console.log('done');
             })
           })
         })

@@ -1,7 +1,6 @@
 angular.module('MasterApp')
   .controller('HomeCtrl',['$scope', '$state', '$rootScope', '$localStorage', 'User',
   function($scope, $state, $rootScope, $localStorage, User) {
-    console.log('HomeCtrl');
     $scope.data = {
       sidebarCollapsed: false
     }

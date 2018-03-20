@@ -13,17 +13,13 @@ var bcrypt = require('bcryptjs');
 module.exports = function(app) {
 
   app.post('/api/auth/login', Middleware.misc.language, Middleware.parameterValidation.auth.login, function(req, res) {
-    console.log(req.body);
     User.findOne({ email: req.body.email }, function(err, user) {
       if (err) {throw err;}
       if (!user) {
         return res.status(406).send(help.sendError(req.language, 'USER_DOES_NOT_EXIST'));
       }
-      console.log(user);
-      console.log(req.body.password, user.password);
       bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
         if (err) {throw err;}
-        console.log(isMatch);
         if (!isMatch) {
           return res.status(406).send(help.sendError(req.language, 'WRONG_PASSWORD'));
         }
