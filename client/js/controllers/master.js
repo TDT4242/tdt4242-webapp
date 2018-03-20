@@ -25,6 +25,8 @@ angular.module('MasterApp')
     
     $scope.logout = function() {
       $auth.removeToken();
+      User.hideAlert();
+      User.hideSuccess();
       $state.go('login');
     }
     
@@ -38,28 +40,5 @@ angular.module('MasterApp')
   
     if ($auth.isAuthenticated()) {
       User.updateUser();
-    }
-
-    $scope.showAlert = function(message, cb) {
-      $rootScope.alertMessage = message;
-      $rootScope.successMessage = null;
-      $rootScope.alertCb = cb;
-    }
-    $scope.hideAlert = function() {
-      $rootScope.alertMessage = null;
-      if ($rootScope.alertCb) {
-        $rootScope.alertCb();
-      }
-    }
-    $scope.showSuccess = function(message, cb) {
-      $rootScope.successMessage = message;
-      $rootScope.alertMessage = null;
-      $rootScope.successCb = cb;
-    }
-    $scope.hideSuccess = function() {
-      $rootScope.successMessage = null;
-      if ($rootScope.successCb) {
-        $rootScope.successCb();
-      }
     }
   }]);

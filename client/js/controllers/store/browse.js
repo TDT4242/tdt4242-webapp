@@ -88,7 +88,7 @@ angular.module('MasterApp')
           alert(response.data.data.message);
         }
       }).catch(function(err) {
-        $scope.showAlert(err.data.message, null);  
+        User.showAlert(err.data.message, null);  
       });
     }
 
@@ -101,10 +101,10 @@ angular.module('MasterApp')
         $rootScope.user = response.data.data.user;
         $scope.data.cart = response.data.data.cart;
         User.updateUser();
-        $rootScope.successMessage = "Item was added to your cart!"
+        User.showSuccess("Item was added to your cart!", null);
       }).catch(function(err) {
         console.log(err);
-        $scope.showAlert(err.data.message, null);
+        User.showAlert(err.data.message, null);
       });
     }
 
@@ -123,7 +123,7 @@ angular.module('MasterApp')
 
     }).catch(function(err) {
       console.log(err);
-      $scope.showAlert(err.data.message, null);
+      User.showAlert(err.data.message, null);
     });
 
 
@@ -136,28 +136,5 @@ angular.module('MasterApp')
         }
       }
       return false;
-    }
-
-    $scope.showAlert = function(message, cb) {
-      $rootScope.alertMessage = message;
-      $rootScope.successMessage = null;
-      $rootScope.alertCb = cb;
-    }
-    $scope.hideAlert = function() {
-      $rootScope.alertMessage = null;
-      if ($rootScope.alertCb) {
-        $rootScope.alertCb();
-      }
-    }
-    $scope.showSuccess = function(message, cb) {
-      $rootScope.successMessage = message;
-      $rootScope.alertMessage = null;
-      $rootScope.successCb = cb;
-    }
-    $scope.hideSuccess = function() {
-      $rootScope.successMessage = null;
-      if ($rootScope.successCb) {
-        $rootScope.successCb();
-      }
     }
   }]);
