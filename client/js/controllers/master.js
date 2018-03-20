@@ -25,6 +25,8 @@ angular.module('MasterApp')
     
     $scope.logout = function() {
       $auth.removeToken();
+      User.hideAlert();
+      User.hideSuccess();
       $state.go('login');
     }
     
