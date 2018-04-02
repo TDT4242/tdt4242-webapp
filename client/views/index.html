@@ -2,11 +2,11 @@
 <html lang="en" ng-app = "MasterApp">
   <head>
     <base href="/">
-    <!-- Required meta tags -->
+    <!-- Meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Latest compiled and minified CSS -->
+    <!-- CSS-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/faq.css">
     <link rel="stylesheet" href="/css/login.css">
@@ -16,15 +16,14 @@
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/bower_components/angular-ui-select/dist/select.min.css">
 
+    <!-- Page favicon -->
     <link href="favicon.png" rel="shortcut icon">
     <link rel="icon" href="favicon.png" />
 
     <title>Home</title>
   </head>
   <body ng-controller = "MasterCtrl">
-    <!-- Latest compiled and minified JavaScript
-    <div class="loading" ng-if = "$root.loading">Loading&#8230;</div>
-    -->
+    <!-- Alert and success messages-->
     <div ng-if = "$root.alertMessage" class="alert alert-danger" style = "text-align:center;">
       <a ng-click = "hideAlert();" class="close" aria-label="close">&times;</a>
       <strong>Oooops!</strong> {{ $root.alertMessage }}
@@ -34,16 +33,15 @@
       <strong>Success!</strong> {{ $root.successMessage }}
     </div>
     <div ui-view class="fadeZoom"></div>
-    <!--Get ejs values-->
 
-    <!-- Latest compiled and minified JavaScript -->
+    <!-- JS dependencies -->
     <script src="/bower_components/angular/angular.min.js"></script>
     <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="/bower_components/ngstorage/ngStorage.min.js"></script>
     <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="https://cdn.jsdelivr.net/satellizer/0.15.5/satellizer.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js"></script>
-
+    <!-- Angular app -->
     <script src="/app.js"></script>
     <!-- Controllers -->
     <script src="/js/controllers/master.js"></script>
@@ -53,23 +51,25 @@
     <script src="/js/controllers/auth/login.js"></script>
     <script src="/js/controllers/auth/signup.js"></script>
     <script src="/js/controllers/admin/home.js"></script>
-
     <!-- Services -->
     <script src="/js/services/account.js"></script>
     <script src="/js/services/user.js"></script>
 
+    <!-- Bootstrap jquery and angular select -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="/bower_components/angular-ui-select/dist/select.min.js"></script>
-		<script type="text/javascript">
-		$(document).ready(function () {
-      $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
-      $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
-      function toggleSidebar() {
-        $('#sidebar').toggleClass('active');
-      }
+		
+    <!-- Procuct displayment grid logic -->
+    <script type="text/javascript">
+    	$(document).ready(function () {
+        $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+        $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
+        function toggleSidebar() {
+          $('#sidebar').toggleClass('active');
+        }
 
-		});
+    	});
 		</script>
 	</body>
 </html>

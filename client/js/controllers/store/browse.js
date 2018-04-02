@@ -27,7 +27,7 @@ angular.module('MasterApp')
         type: 2
       }]
     }
-
+    // Generic method to get item from items given the id
     $scope.getItemById = function(collection, id) {
       for (var i = 0; i < collection.length; i++) {
         if (collection[i]._id == id) {
@@ -36,6 +36,7 @@ angular.module('MasterApp')
       }
     }
     
+    // Getting price of product after applying the deal (if it exists)
     $scope.getProductPrice = function(product) {
       for (var i = 0; i < $scope.data.deals.length; i++) {
         if ($scope.data.deals[i].product == product._id) {
@@ -45,6 +46,7 @@ angular.module('MasterApp')
       return User.getPrice(1, product.price, null);
     }
 
+    // Tranform deal to descriptive text, trustAsHtml used for being able to pass css in angular ng-html
     $scope.getDealDescription = function(product) {
       for (var i = 0; i < $scope.data.deals.length; i++) {
         if ($scope.data.deals[i].product == product._id) {
@@ -58,6 +60,7 @@ angular.module('MasterApp')
       return $sce.trustAsHtml('<div style = "color:white;">SuperStore</div>');
     }
 
+    // Generic method for getting the ids of all items passed as parameters
     $scope.getIdsForItems = function(items) {
       var ids = [];
       for (var i = 0; i < items.length; i++) {
@@ -66,6 +69,19 @@ angular.module('MasterApp')
       return ids;
     }
 
+    // Figure out if product with given id already is in the cart
+    $scope.productIsInCart = function(product_id) {
+      if ($rootScope.user) {
+        for (var i = 0; i < $rootScope.user.cart_products.length; i++) {
+          if ($rootScope.user.cart_products[i].product == product_id) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+    
+    // Get all items based on added filtering by using the searchProducts API request
     $scope.filterProducts = function() {
       var priceFilter = -1;
       if ($scope.data.priceFilter) {
@@ -89,6 +105,7 @@ angular.module('MasterApp')
       });
     }
 
+    // Add product to cart by making addToCart API request
     $scope.addToCart = function(product) {
       Account.addToCart({
         product_id: product._id,
@@ -103,6 +120,7 @@ angular.module('MasterApp')
       });
     }
 
+    // Initialize controller with data given NO parameters in the filtering (in practice, all products returned)
     Account.searchProducts({
       priceFilter: -1,
       brands: $scope.getIdsForItems($scope.data.filterBrands),
@@ -119,15 +137,4 @@ angular.module('MasterApp')
       User.showAlert(err.data.message, null);
     });
 
-
-    $scope.productIsInCart = function(product_id) {
-      if ($rootScope.user) {
-        for (var i = 0; i < $rootScope.user.cart_products.length; i++) {
-          if ($rootScope.user.cart_products[i].product == product_id) {
-            return true;
-          }
-        }
-      }
-      return false;
-    }
   }]);

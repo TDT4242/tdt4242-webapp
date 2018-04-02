@@ -1,9 +1,9 @@
 <div class="container">
-  
   <h3>All store products</h3>
   <div ng-if = "data.products.length == 0">
     No products added to cart!
   </div>
+  <!--Products chart-->
   <table class="table table-striped" ng-if = "data.products.length != 0">
   <thead>
       <tr>
@@ -35,7 +35,7 @@
   </table>
   <button type="button" class="btn btn-success btn-md" ng-click = "showAddProduct(true);" ng-if = "!data.showAddProduct" style = "margin-top:10px;">Add new product</button>
   
-  <!--Add new products-->
+  <!--Add new products panel START-->
   <div class="panel-group" ng-if = "data.showAddProduct">
     <div class="panel panel-primary">
       <div class="panel-heading">Add new product</div>
@@ -81,7 +81,8 @@
       </div>
     </div>
   </div>
-  
+  <!--Add new products panel END-->
+
   <h3>Store deals</h3>
   <div ng-if = "data.deals.length == 0">
     No deals exist!
@@ -139,6 +140,7 @@
   </div>
   <!--Orders placed-->
   <h3>Deals placed</h3>
+  <!--Deals chart-->
   <table class="table table-striped" ng-if = "data.orders.length > 0">
   <thead>
       <tr>
@@ -152,8 +154,8 @@
       <tr ng-repeat = "order in data.orders">
         <td>{{getDateFromIso(order.date_placed)}}</td>
         <td>
-          {{ getMatchingItem(data.users, order.user).first_name }}
-          {{ getMatchingItem(data.users, order.user).last_name }}
+          {{ getItemById(data.users, order.user).first_name }}
+          {{ getItemById(data.users, order.user).last_name }}
         </td>
         <td>{{getStatusDescription(order.status)}}</td>
         <td>

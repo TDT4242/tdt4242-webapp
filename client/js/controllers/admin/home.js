@@ -16,6 +16,7 @@ angular.module('MasterApp')
       newDealValidationErrorMessage: null
     };
     
+    // Transform iso to readable date
     $scope.getDateFromIso = function(iso) {
       var d = new Date(iso);
       var date = d.getDate(); if (date < 10) {date='0'+date;}
@@ -28,6 +29,7 @@ angular.module('MasterApp')
       return date + '.' + month + '.' + year + ', ' + hour + ':' + minute;
     }
     
+    // Transform order status value to text
     $scope.getStatusDescription = function(status) {
       if (status == 0) {
         return 'Received';
@@ -37,7 +39,25 @@ angular.module('MasterApp')
         return 'Order shipped';
       }
     }
+
+    $scope.showAddProduct = function(show) {
+      $scope.data.showAddProduct = show;
+    }
+
+    $scope.showAddDeal = function(show) {
+      $scope.data.showAddDeal = show;
+    }
     
+    // Tranform deal to descriptive text
+    $scope.getDealDescription = function(deal) {
+      if (deal.percentage !== null) {
+        return deal.percentage + ' % off';
+      } else {
+        return deal.x + ' for ' + deal.y;
+      }
+    }
+
+    // Make updateOrder API request
     $scope.updateOrder = function(order_id) {
       Account.updateOrder({
         order_id: order_id
@@ -48,6 +68,7 @@ angular.module('MasterApp')
       })
     }
     
+    // Make editStockQuantity API request
     $scope.editStockQuantity = function(product) {
       Account.editStockQuantity({
         product_id: product._id,
@@ -61,33 +82,8 @@ angular.module('MasterApp')
         User.showAlert(err.data.message, null);
       })
     }
-    
-    $scope.getMatchingItem = function(items, id) {
-      for (var i = 0; i < items.length; i++) {
-        if (items[i]._id == id) {
-          return items[i];
-        }
-      }
-      return {};
-    }
 
-    $scope.showAddProduct = function(show) {
-      $scope.data.showAddProduct = show;
-    }
-
-    $scope.showAddDeal = function(show) {
-      $scope.data.showAddDeal = show;
-    }
-
-    $scope.getDealDescription = function(deal) {
-      if (deal.percentage !== null) {
-        return deal.percentage + ' % off';
-      } else {
-        return deal.x + ' for ' + deal.y;
-      }
-    }
-
-
+    // Validate new product parameters and make addNewProduct API request
     $scope.addNewProduct = function() {
       if ($scope.validateNewProduct()) {
 
@@ -117,6 +113,7 @@ angular.module('MasterApp')
       }
     }
 
+    // Validate new deal parameters and make addNewDeal API request
     $scope.addNewDeal = function() {
       if ($scope.validateNewDeal()) {
         Account.addNewDeal({
@@ -138,6 +135,7 @@ angular.module('MasterApp')
       }
     }
 
+    // Make sure new product parameters are valid
     $scope.validateNewProduct = function() {
       $scope.data.newProductValidationErrorMessage = null;
       if (typeof $scope.data.newProductName != 'string' || $scope.data.newProductName.trim() == '') {
@@ -165,6 +163,7 @@ angular.module('MasterApp')
       return true;
     }
 
+    // Make sure new deal parameters are valid
     $scope.validateNewDeal = function() {
       $scope.data.newDealValidationErrorMessage = null;
       if (!$scope.data.newDealProduct) {
@@ -192,7 +191,8 @@ angular.module('MasterApp')
       return true;
 
     }
-
+    
+    // Initialize controller by getting the admin data
     Account.getAdmin({}).then(function(response) {
       $scope.data = response.data.data;
       for (var i = 0; i < $scope.data.products.length; i++) {
@@ -201,7 +201,8 @@ angular.module('MasterApp')
     }).catch(function(err) {
       User.showAlert(err.data.message, null);
     })
-
+    
+    // Generic method to get item from items given the id
     $scope.getItemById = function(items, id) {
       for (var i = 0; i < items.length; i++) {
         if (items[i]._id == id) {
@@ -211,6 +212,7 @@ angular.module('MasterApp')
       return null;
     }
 
+    // Get descriptive string for all categories for a product
     $scope.getProductCategories = function(product) {
       var returnString = "";
       var counter = 0;
@@ -226,7 +228,8 @@ angular.module('MasterApp')
       }
       return returnString;
     }
-
+    
+    // Alert method 
     $scope.showValidationAlert = function(type, message) {
       if (type == 'newProduct') {
         $scope.data.newProductValidationErrorMessage = message;
@@ -234,7 +237,7 @@ angular.module('MasterApp')
         $scope.data.newDealValidationErrorMessage = message;
       }
     }
-
+    // Alert method 
     $scope.hideValidationAlert = function(type, message, cb) {
       if (type == 'newProduct') {
         $scope.data.newProductValidationErrorMessage = null;

@@ -7,6 +7,7 @@ angular.module('MasterApp', ['ui.router', 'ui.bootstrap', 'ngStorage', 'satelliz
         templateUrl: '/partials/master.html',
         abstract: true,
         controller: 'MasterCtrl',
+        // Make sure user is authenticated when accessing all routes under this branch
         resolve: {
           authenticated: authenticated
         }
@@ -47,7 +48,7 @@ angular.module('MasterApp', ['ui.router', 'ui.bootstrap', 'ngStorage', 'satelliz
         controller: 'AdminHomeCtrl'
       })
       ;
-
+      // Make sure user is logged in
       function authenticated($q, $location, $auth, $localStorage, $rootScope, $state) {
         var deferred = $q.defer();
         if (!$auth.isAuthenticated()) {

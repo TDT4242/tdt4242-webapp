@@ -1,9 +1,9 @@
+// The Account factory makes sure all API request has the saved authentication token
 angular.module('MasterApp')
   .factory('Account',
   ['$http',
   function($http) {
     return {
-      // USER SPECIFIC
       searchProducts: function(data) {
         return $http.post('/api/store/search', data);
       },

@@ -1,17 +1,12 @@
 <div class="wrapper">
-    <!-- Sidebar Holder -->
+    <!-- Sidebar title -->
     <nav id="sidebar" ng-class="{true: 'active'}[data.sidebarCollapsed]">
         <div class="sidebar-header" ng-click = "goHome();" >
             <h3>SandersSuperStore</h3>
         </div>
-
+        
+        <!-- Sidebar links -->
         <ul class="list-unstyled components">
-          <!--
-            <li>
-                <a href="/faq/popular-questions">{{mostPopularLanguage.most_popular}}</a>
-                <a href="/faq/get-started">{{getStartedLanguage.get_started}}</a>
-            </li>
-            -->
             <br>
             <p class = "sidebar-title">Main Menu</p>
             <li>
@@ -22,20 +17,19 @@
                 </ul>
             </li>
         </ul>
-
     </nav>
-
-    <!-- Page Content Holder -->
     <div id="content">
-
+      <!-- Navbar -->
         <nav class="navbar navbar-default">
             <div class="container-fluid">
 
               <div class="navbar-header">
+                <!-- Navbar burger-menu -->
                   <button type="button" ng-click = "toggleSidebar()" id="sidebarCollapse" class="btn btn-primary navbar-btn">
                       <i class="fa fa-bars"></i>
                   </button>
               </div>
+              <!-- Menu bar links -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav navbar-right">
                     <li><a href = "/admin/home" ng-if = "isAdministrator()">Administrator page</a></li>

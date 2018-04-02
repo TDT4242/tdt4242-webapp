@@ -4,13 +4,14 @@ angular.module('MasterApp')
   function(Account, $rootScope, $auth, $timeout) {
     var alertMessageTimeout = 10000;
     return {
+      // Update $rootScope with latest user details
       updateUser: function() {
         Account.getUser({}).then(function(response) {
           $rootScope.user = response.data.data.user;
           $rootScope.products = response.data.data.products;
           $rootScope.orders = response.data.data.orders;
           $rootScope.deals = response.data.data.deals;
-
+          // Make sure newQuantity does not point to old quantity if its changed
           for (var i = 0; i < $rootScope.user.cart_products.length; i++) {
             $rootScope.user.cart_products[i].newQuantity = JSON.parse(JSON.stringify($rootScope.user.cart_products[i].quantity));
           }
@@ -20,6 +21,7 @@ angular.module('MasterApp')
           }
         });
       },
+      // Get price for product given applied deal
       getPrice: function(quantity, price, deal) {
         if (!deal) {
           return roundIt(price * quantity)
@@ -35,6 +37,7 @@ angular.module('MasterApp')
         }
         return roundIt(price * quantity)
       },
+      // Handle success and alert messages 
       showSuccess: function(message, cb) {
         $rootScope.successMessage = message;
         $rootScope.alertMessage = null;
@@ -78,7 +81,7 @@ angular.module('MasterApp')
     }
   }]);
   
-  
+  // Round number to closest 2 decimals
   function roundIt(number) {
     return Math.floor(number * 100)/100;
   }

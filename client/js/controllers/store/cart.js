@@ -2,8 +2,10 @@ angular.module('MasterApp')
   .controller('CartCtrl',['$scope', '$state', '$rootScope', '$localStorage', 'User', 'Account', 'User',
   function($scope, $state, $rootScope, $localStorage, User, Account, User) {
 
+    // Controller only uses data from the $rootScope, therefore uses the global updateUser method to make sure controller is updated with latest data
     User.updateUser();
 
+    // Transform iso to readable date
     $scope.getDateFromIso = function(iso) {
       var d = new Date(iso);
       var date = d.getDate(); if (date < 10) {date='0'+date;}
@@ -16,6 +18,7 @@ angular.module('MasterApp')
       return date + '.' + month + '.' + year + ', ' + hour + ':' + minute;
     }
     
+    // Get number of items in cart
     $scope.getCartCount = function() {
       if ($rootScope.user) {
         var totalCount = 0;
@@ -28,6 +31,7 @@ angular.module('MasterApp')
       }
     }
     
+    // Get total cost of items in cart
     $scope.getCartCost = function() {
       if ($rootScope.user) {
         var totalCost = 0;
@@ -42,6 +46,7 @@ angular.module('MasterApp')
       }
     }
     
+    // Get product price given the applied deal
     $scope.getProductPrice = function(cartProduct) {
       if ($rootScope.user) {
         var deal = $scope.getProductDeal(cartProduct.product);
@@ -52,6 +57,7 @@ angular.module('MasterApp')
       }
     }
     
+    // Get deal (if any) for the given product id
     $scope.getProductDeal = function(product_id) {
       if ($rootScope.user) {
         for (var i = 0; i < $rootScope.deals.length; i++) {
@@ -65,6 +71,7 @@ angular.module('MasterApp')
       }
     }
     
+    // Get number of items for the given order
     $scope.getNumberOfItems = function(order) {
       var counter = 0;
       for (var i = 0; i < order.products.length; i++) {
@@ -73,6 +80,7 @@ angular.module('MasterApp')
       return counter;
     }
     
+    // Get total cost for all products, only used on orders
     $scope.getOrderCost = function(products) {
       var cost = 0;
       for (var i = 0; i < products.length; i++) {
@@ -81,6 +89,7 @@ angular.module('MasterApp')
       return cost;
     }
     
+    // Transform order status value to texts
     $scope.getStatusDescription = function(status) {
       if (status == 0) {
         return 'Received';
@@ -91,6 +100,34 @@ angular.module('MasterApp')
       }
     }
     
+    // Get all products in cart
+    $scope.getCartProducts = function() {
+      if ($rootScope.user) {
+        return $rootScope.user.cart_products;
+      } else {
+        return [];
+      }
+    }
+    
+    // Get all orders in cart
+    $scope.getOrders = function() {
+      if ($rootScope.user) {
+        return $rootScope.orders;
+      } else {
+        return [];
+      }
+    }
+    
+    // Get given product given the cartProduct
+    $scope.getProduct = function(cartProduct) {
+      for (var i = 0; i < $rootScope.products.length; i++) {
+        if ($rootScope.products[i]._id == cartProduct.product) {
+          return $rootScope.products[i];
+        }
+      }
+    }
+    
+    // Make deleteProductFromCart API request
     $scope.deleteProductFromCart = function(id) {
       Account.deleteProductFromCart({
         cart_product_id: id
@@ -101,6 +138,7 @@ angular.module('MasterApp')
       });
     }
 
+    // Make updateProductInCart API request
     $scope.updateProductInCart = function(id, quantity) {
       Account.updateProductInCart({
         cart_product_id: id,
@@ -112,6 +150,7 @@ angular.module('MasterApp')
       });
     }
 
+    // Make checkout API request
     $scope.checkout = function() {
       Account.checkout({}).then(function(response) {
         User.updateUser();
@@ -120,25 +159,4 @@ angular.module('MasterApp')
       });
     }
 
-    $scope.getCartProducts = function() {
-      if ($rootScope.user) {
-        return $rootScope.user.cart_products;
-      } else {
-        return [];
-      }
-    }
-    $scope.getOrders = function() {
-      if ($rootScope.user) {
-        return $rootScope.orders;
-      } else {
-        return [];
-      }
-    }
-    $scope.getProduct = function(cartProduct) {
-      for (var i = 0; i < $rootScope.products.length; i++) {
-        if ($rootScope.products[i]._id == cartProduct.product) {
-          return $rootScope.products[i];
-        }
-      }
-    }
   }]);
