@@ -18,51 +18,30 @@ var Models = require('./models/index.js');
 var status = require('./config/status.js');
 var help = require('./helpers/help.js');
 
+// initialize express app
 var app = express();
 var server = require('http').Server(app);
-var JSONfn = require('json-fn');
 
 mongoose.connect(config.DATABASE_URL);
 mongoose.connection.on('error', function(err) {
   console.log('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
 });
 
-function clearOrders() {
-  Models.Order.find({}, function(err, orders) {
-    async.forEach(orders, function(order, cb) {
-      order.remove(function(err) {
-        console.log(err);
-      })
-    }, function(err) {
-      console.log(err);
-    })
-  })
-}
-
-
-function clearDeals() {
-  Models.Deal.find({}, function(err, orders) {
-    async.forEach(orders, function(order, cb) {
-      order.remove(function(err) {
-        console.log(err);
-      })
-    }, function(err) {
-      console.log(err);
-    })
-  })
-}
-
+// functions initializing and clearing data (mainly for testing and building phase)
 //clearOrders();
 //clearDeals();
+//init();
+//clear();
 
+// check if server is up
 app.get('/serverIsUp', function(req, res) {
   return res.status(200).send();
 })
 
-//init();
-//clear();
 
 
+
+// listening at port 3000
 app.set('port', 3000);
 app.set('trust_proxy', 1);
 app.use(cors());
@@ -71,8 +50,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json({limit: '2mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// set public folder
 app.use(express.static('../client'));
+// set views folder
 app.set('views', '../client/views');
+// set html engine
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 app.use(function(err, req, res, next) {
@@ -83,18 +65,19 @@ app.use(function(err, req, res, next) {
 
 require('./routes/index.js')(app);
 
-
+// main route for angular app
 app.get('/*', function(req, res) {
   return res.render('index.html');
 })
 
-
+// start server
 server.listen(app.get('port'), function() {
   if (process.env.production !== 'true') {
     process.exit(0);
   }
 });
 
+// socket for stopping server in testing phase
 const io = require('socket.io')(server);
 io.on('connection', (socketServer) => {
   socketServer.on('npmStop', () => {
@@ -102,7 +85,7 @@ io.on('connection', (socketServer) => {
   });
 });
 
-
+// initialize database with data
 function init() {
   var newUser = new Models.User({
     first_name: "stein",
@@ -209,6 +192,7 @@ function init() {
   })
 }
 
+// clear all database data
 function clear() {
   Models.Brand.remove({}, function(err) {
     console.log(err);
@@ -226,6 +210,32 @@ function clear() {
           })
         })
       })
+    })
+  })
+}
+
+// clear all orders
+function clearOrders() {
+  Models.Order.find({}, function(err, orders) {
+    async.forEach(orders, function(order, cb) {
+      order.remove(function(err) {
+        console.log(err);
+      })
+    }, function(err) {
+      console.log(err);
+    })
+  })
+}
+
+// clear all deals
+function clearDeals() {
+  Models.Deal.find({}, function(err, orders) {
+    async.forEach(orders, function(order, cb) {
+      order.remove(function(err) {
+        console.log(err);
+      })
+    }, function(err) {
+      console.log(err);
     })
   })
 }
