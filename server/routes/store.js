@@ -10,60 +10,25 @@ var bcrypt = require('bcryptjs');
 
 module.exports = function(app) {
 
-  function getSearchTextIds(searchText, callback) {
-    return new Promise(resolve => {
-      var modelsInfo = [{
-        name: 'brand',
-        model: Models.Brand
-      }, {
-        name: 'categories',
-        model: Models.Category
-      }, {
-        name: '_id',
-        model: Models.Product
-      }, {
-        name: 'material',
-        model: Models.Material
-      }];
-      var idQueries = {
-        $or: []
-      };
-      async.forEach(modelsInfo, function(modelInfo, cb) {
-        modelInfo.model.find({ name: { $regex: searchText, $options: 'i' }}, function(err, items) {
-          if (err) {throw err;}
-
-          if (items.length > 0) {
-            var idQuery = {};
-            var item_ids = [];
-            // getting ids of the relevant brands, categories and materials
-            for (var i = 0; i < items.length; i++) {item_ids.push(items[i]._id);}
-            // adding the ids to the query that will be returned
-            idQuery[modelInfo.name] = { $in: item_ids };
-            idQueries.$or.push(idQuery);
-          }
-          cb();
-        })
-      }, function(err) {
-        if (err) {throw err;}
-        callback(null, idQueries);
-      });
-    });
-  }
-
+  // return products based on search filters
   app.post('/api/store/search', Middleware.misc.language, Middleware.parameterValidation.store.search, function(req, res) {
     var searchQuery = {};
     var filterQuery = {
       $and: []
     };
-
+    
+    // are any filter options selected?
     var filterOptionsSelected = req.body.brands.length != 0 || req.body.categories.length != 0 || req.body.materials.length != 0 || req.body.priceLimitQuery;
+    // is search text entered?
     var searchTextEntered = req.body.searchText !== null;
+    // status and message to be returned, used to message the client in case no filtering is applied
     var status = null;
     var message = null;
     if (!filterOptionsSelected && !searchTextEntered) {
       status = help.sendError(req.language,  'NO_FILTERING_SELECTED').status;
       message = help.sendError(req.language,  'NO_FILTERING_SELECTED').message;
     }
+    // creating product query
     if (filterOptionsSelected || searchTextEntered) {
       searchQuery["$and"] = [];
     }
@@ -92,7 +57,7 @@ module.exports = function(app) {
       callback(null, req.body.searchText);
     }];
     if (searchTextEntered) {
-      waterfallArr.push(getSearchTextIds);
+      waterfallArr.push(help.getSearchTextIds);
     }
     async.waterfall(waterfallArr, function(err, idQueries) {
       if (err) {throw err;}
@@ -107,6 +72,7 @@ module.exports = function(app) {
           material_ids.push(products[i].material);
           category_ids = category_ids.concat(products[i].categories);
         }
+        // return products with related brands, categories, materials and deals
         Models.Brand.find({ _id: { $in: brand_ids }}, function(err, brands) {
           if (err) {throw err;}
           Models.Category.find({ _id: { $in: category_ids }}, function(err, categories) {

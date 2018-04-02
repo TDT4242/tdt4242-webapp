@@ -6,15 +6,19 @@ var async = require('async');
 var help = require('../helpers/help.js');
 
 module.exports = function(app) {
-
+  
+  // get user data
   app.post('/api/user/get', Middleware.misc.language, Middleware.parameterValidation.user.getUser, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
       if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
+      
+      // get the users orders, saved products and related deals
       var product_ids = [];
       for (var i = 0; i < user.cart_products.length; i++) {
         product_ids.push(user.cart_products[i].product);
       }
+      
       Models.Order.find({ user: req.user }, function(err, orders) {
         if (err) {throw err;}
         for (var i = 0; i < orders.length; i++) {
@@ -41,6 +45,7 @@ module.exports = function(app) {
     });
   });
 
+  // add product to personal cart
   app.put('/api/user/addToCart', Middleware.misc.language, Middleware.parameterValidation.user.addToCart, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
@@ -50,11 +55,13 @@ module.exports = function(app) {
         if (!product) {
           return res.status(406).send(help.sendError(req.language, 'PRODUCT_ID_INVALID'));
         }
+        // make sure product is not already in cart
         for (var i = 0; i < user.cart_products.length; i++) {
           if (user.cart_products[i].product == req.body.product_id) {
             return res.status(406).send(help.sendError(req.language, 'PRODUCT_ALREADY_IN_CART'));
           }
         }
+        // add product to cart
         user.cart_products.push({
           product: req.body.product_id,
           quantity: req.body.quantity
@@ -69,11 +76,13 @@ module.exports = function(app) {
     });
   });
 
+  // remove existing product from cart
   app.put('/api/user/deleteProductFromCart', Middleware.misc.language, Middleware.parameterValidation.user.deleteProductFromCart, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
       if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
-      var found = false;
+      
+      // get product index in array
       var index = null;
       for (var i = 0; i < user.cart_products.length; i++) {
         if (user.cart_products[i]._id == req.body.cart_product_id) {
@@ -81,9 +90,11 @@ module.exports = function(app) {
           user.cart_products[i].quantity = req.body.quantity;
         }
       }
+      // if product does not exist return error
       if (index === null) {
         return res.status(406).send(help.sendError(req.language, 'PRODUCT_ID_INVALID'));
       }
+      // remove product from the cart
       user.cart_products.splice(index, 1);
       user.save(function(err) {
         if (err) {throw err;}
@@ -94,10 +105,12 @@ module.exports = function(app) {
     });
   });
 
+  // update quantity in saved products
   app.put('/api/user/updateProductInCart', Middleware.misc.language, Middleware.parameterValidation.user.updateProductInCart, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
       if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
+      // check if product exists and update
       var found = false;
       for (var i = 0; i < user.cart_products.length; i++) {
         if (user.cart_products[i]._id == req.body.cart_product_id) {
@@ -105,6 +118,7 @@ module.exports = function(app) {
           user.cart_products[i].quantity = req.body.quantity;
         }
       }
+      // send error if product does not exist
       if (!found) {
         return res.status(406).send(help.sendError(req.language, 'PRODUCT_ID_INVALID'));
       }
@@ -117,19 +131,24 @@ module.exports = function(app) {
     });
   });
 
+  // checkout a order
   app.put('/api/user/checkout', Middleware.misc.language, Middleware.parameterValidation.user.checkout, UserAuth.ensureAuthenticated, function(req, res) {
     Models.User.findById(req.user, function(err, user) {
       if (err) {throw err;}
       if (!user) {return res.status(406).send(help.sendError(req.language, 'INVALID_USER_AUTHENTICATION'));}
-      var found = false;
+      
+      // check if there exists any products in the cart ready for checkout
       if (user.cart_products.length == 0) {
         return res.status(406).send(help.sendError(req.language, 'NO_PRODUCTS_SELECTED'));
       }
+      // check that all products have a valid quantity (at least 1)
       for (var i = 0; i < user.cart_products.length; i++) {
         if (user.cart_products[i].quantity < 1) {
           return res.status(406).send(help.sendError(req.language, 'MINIMUM_QUANTITY_MUST_BE_1'));
         }
       }
+      
+      // check if all products ordered are in stock
 
       var outOfStockProducts = '';
       var products = [];
@@ -155,19 +174,24 @@ module.exports = function(app) {
         });
       }, function(err) {
         if (err) {throw err;}
+        // if some products are out of stock, send error and cancel order process
         if (outOfStockProducts != '') {
           return res.status(406).send({ message: status.OUT_OF_STOCK[req.language].message + outOfStockProducts, status: status.OUT_OF_STOCK.code });
         }
+        
+        // create new order
         var newOrder = new Models.Order({
           user: req.user,
           date_placed: new Date().toISOString(),
           products: cart_products
         });
+        // clear user cart
         user.cart_products = [];
         user.save(function(err) {
           if (err) {throw err;}
           newOrder.save(function(err) {
             if (err) {throw err;}
+            // decrement stock quantity for all ordered products
             async.forEach(products, function(product, cb) {
               for (var i = 0; i < cart_products.length; i++) {
                 if (cart_products[i].product == product._id) {

@@ -1,3 +1,5 @@
+// validation.js contains often used parameter validation methods in the validation middleware
+
 var validator = require('validator');
 var status = require('../config/status.js');
 var help = require('../helpers/help.js');
